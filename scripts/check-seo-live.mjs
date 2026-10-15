@@ -11,6 +11,10 @@ const sitemap = await get(`${origin}/sitemap.xml`);
 assert.equal(sitemap.status, 200);
 const urls = [...sitemap.text.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
 assert.ok(urls.length > 0);
+assert.equal((sitemap.text.match(/<lastmod>/g) || []).length, urls.length);
+const submission = await get(`${origin}/urls.txt`);
+assert.equal(submission.status, 200);
+assert.deepEqual(submission.text.trim().split('\n'), urls);
 const robots = await get(`${origin}/robots.txt`);
 assert.equal(robots.status, 200);
 assert.ok(robots.text.includes(`Sitemap: ${origin}/sitemap.xml`));
@@ -24,7 +28,20 @@ for (let i = 0; i < urls.length; i += 4) {
       assert.equal(result.url, url, `Unexpected redirect: ${url}`);
       assert.ok(result.text.includes(`rel="canonical" href="${url}"`), `Canonical: ${url}`);
       assert.ok(!/name="robots"[^>]*content="[^"]*noindex/.test(result.text), url);
-      assert.ok(result.text.includes('application/ld+json'), url);
+      const json = result.text.match(
+        /<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/s,
+      )?.[1];
+      assert.ok(json, url);
+      const graph = JSON.parse(json)['@graph'];
+      assert.ok(
+        graph?.some((item) => item['@type'] === 'WebPage' && item.url === url),
+        `WebPage schema: ${url}`,
+      );
+      if (url !== `${origin}/`)
+        assert.ok(
+          graph.some((item) => item['@type'] === 'BreadcrumbList'),
+          url,
+        );
     }),
   );
 }
