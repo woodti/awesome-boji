@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { guides } from '../data/guides';
+import { pageNames, siteName, siteUrl, verification } from '../data/seo';
 interface Props {
   title?: string;
   description?: string;
@@ -16,6 +17,63 @@ const {
 } = Astro.props;
 const pathname = Astro.url.pathname;
 const canonical = new URL(pathname, Astro.site);
+const article = schema?.['@type'] === 'Article';
+const crumbs =
+  pathname === '/' || noindex
+    ? []
+    : [
+        { name: '首页', path: '/' },
+        ...(pathname.startsWith('/guides/') && pathname !== '/guides/'
+          ? [{ name: '薄肌文章', path: '/guides/' }]
+          : []),
+        { name: pageNames[pathname] || title.split('｜')[0], path: pathname },
+      ];
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: siteName,
+      url: `${siteUrl}/`,
+      sameAs: ['https://github.com/woodti/awesome-boji'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}/#website`,
+      name: siteName,
+      alternateName: '薄肌指南',
+      url: `${siteUrl}/`,
+      inLanguage: 'zh-CN',
+      publisher: { '@id': `${siteUrl}/#organization` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical.href,
+      name: title,
+      description,
+      inLanguage: 'zh-CN',
+      isPartOf: { '@id': `${siteUrl}/#website` },
+      ...(crumbs.length ? { breadcrumb: { '@id': `${canonical}#breadcrumb` } } : {}),
+    },
+    ...(crumbs.length
+      ? [
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${canonical}#breadcrumb`,
+            itemListElement: crumbs.map((crumb, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: crumb.name,
+              item: new URL(crumb.path, siteUrl).href,
+            })),
+          },
+        ]
+      : []),
+    ...(schema ? [schema] : []),
+  ],
+};
 const navigation = [
   { href: '/developers/', label: '程序员' },
   { href: '/guides/', label: '指南' },
@@ -61,28 +119,22 @@ const searchItems = [
     <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta property="og:type" content={schema ? 'article' : 'website'} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
+    />
+    {verification.google && <meta name="google-site-verification" content={verification.google} />}
+    {verification.baidu && <meta name="baidu-site-verification" content={verification.baidu} />}
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Awesome Boji" />
     <meta property="og:image" content={new URL('/images/og.png', Astro.site)} />
+    <meta property="og:image:alt" content="Awesome Boji 薄肌指南：写代码，也练身材" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(
-        schema || {
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: 'Awesome Boji',
-          alternateName: '薄肌指南',
-          url: Astro.site?.href,
-          inLanguage: 'zh-CN',
-        },
-      ).replace(/</g, '\\u003c')}
-    />
+    <script type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, '\\u003c')} />
   </head>
   <body>
     <a class="skip-link" href="#main">

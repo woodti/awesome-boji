@@ -1,23 +1,27 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
+import { publishedAt, siteUrl } from '../../data/seo';
 import { guides, sources } from '../../data/guides';
 export function getStaticPaths() {
   return guides.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
 }
 const { guide } = Astro.props;
-const index = guides.findIndex((g) => g.slug === guide.slug);
-const next = guides[(index + 1) % guides.length];
+const related = [
+  ...guides.filter((g) => g.slug !== guide.slug && g.category === guide.category),
+  ...guides.filter((g) => g.slug !== guide.slug && g.category !== guide.category),
+].slice(0, 3);
+const modified = guide.updatedAt || guide.publishedAt || publishedAt;
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: guide.title,
   description: guide.summary,
-  datePublished: '2026-10-15',
-  dateModified: '2026-10-15',
+  datePublished: guide.publishedAt || publishedAt,
+  dateModified: modified,
   inLanguage: 'zh-CN',
   author: { '@type': 'Organization', name: 'Awesome Boji', url: 'https://lianboji.com/about/' },
-  publisher: { '@type': 'Organization', name: '练薄肌', url: 'https://lianboji.com/' },
+  publisher: { '@id': `${siteUrl}/#organization` },
   mainEntityOfPage: `https://lianboji.com/guides/${guide.slug}/`,
   image: 'https://lianboji.com/images/og.png',
 };
@@ -39,8 +43,8 @@ const schema = {
       <div class="article-meta">
         <span>{guide.category}</span>
         <span>{guide.minutes} 分钟阅读</span>
-        <span>Awesome Boji</span>
-        <time datetime="2026-10-15">更新于 2026.10.15</time>
+        <a href="/about/">Awesome Boji 编辑整理</a>
+        <time datetime={modified}>更新于 {modified.slice(0, 10).replaceAll('-', '.')}</time>
       </div>
     </header>
     <div class="content-layout section-sm" style="padding-top:0">
@@ -77,13 +81,16 @@ const schema = {
             以上来源支持相关背景知识；本站的具体训练安排、举例和解读由编辑整理，不是来源机构的个体训练处方。内容用于一般学习参考，不承诺体型变化或训练效果。
           </p>
         </div>
-        <a class="reading-next" href={`/guides/${next.slug}/`}>
-          <div>
-            <small>接着读</small>
-            <strong>{next.title}</strong>
-          </div>
-          <Icon name="arrow" size={24} />
-        </a>
+        <section aria-label="相关阅读" class="source-list">
+          <h2>接着解决下一个问题</h2>
+          {related.map((item) => (
+            <a href={`/guides/${item.slug}/`}>
+              {item.title} <Icon name="arrow" size={16} />
+            </a>
+          ))}
+          <a href="/plan/">薄肌训练计划：按时间与器械生成课表</a>
+          <a href="/tools/">热量与蛋白质计算工具</a>
+        </section>
       </article>
       <aside class="article-sidebar" aria-label="文章目录">
         <h2>这篇读什么</h2>

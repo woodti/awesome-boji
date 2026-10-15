@@ -36,6 +36,8 @@ export type Guide = {
   category: string;
   summary: string;
   minutes: number;
+  publishedAt?: string;
+  updatedAt?: string;
   takeaway: string;
   sections: { title: string; paragraphs: string[]; list?: string[] }[];
   sources: (keyof typeof sources)[];
@@ -83,7 +85,7 @@ export const guides: Guide[] = [
   },
   {
     slug: 'beginner-first-week',
-    title: '新手第一周：把训练变成一件小事',
+    title: '薄肌新手第一周训练计划',
     category: '训练方法',
     summary: '不用每天去健身房。从两次全身练习，建立你的第一份课表。',
     minutes: 5,
@@ -234,7 +236,7 @@ export const guides: Guide[] = [
   },
   {
     slug: 'home-or-gym',
-    title: '居家还是健身房？从能坚持的条件开始',
+    title: '居家薄肌怎么练？器械怎么选',
     category: '薄肌入门',
     summary: '比较时间、器械和进阶空间，找到适合当下的训练场景。',
     minutes: 3,

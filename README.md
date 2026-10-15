@@ -102,3 +102,7 @@ GitHub Actions 在 main 更新时校验并部署 GitHub Pages；工作流使用�
 ## 验证记录
 
 参见 [首版验收](docs/ACCEPTANCE.md)。本地通过、GitHub CI 通过、线上发布和自定义域名可访问是不同状态，应分别验证。
+
+## 搜索收录维护
+
+见 [SEO 配置与提交记录](docs/SEO.md)。`npm run check:site` 检查构建产物，`npm run check:seo:live` 检查线上抓取条件。平台验证、提交回执和实际索引状态分别记录。

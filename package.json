@@ -14,7 +14,8 @@
     "test": "node --test tests/*.test.mjs",
     "check:site": "node scripts/check-site.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:seo:live": "node scripts/check-seo-live.mjs"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans-sc": "^5.3.1",
