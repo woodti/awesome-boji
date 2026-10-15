@@ -4,6 +4,8 @@ export const GET: APIRoute = ({ site }) => {
   const routes = [
     '/',
     '/start/',
+    '/developers/',
+    '/credits/',
     '/guides/',
     '/plan/',
     '/tools/',

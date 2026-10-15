@@ -1,8 +1,29 @@
-# 练薄肌 · LIANBOJI
+# Awesome Boji｜薄肌指南
 
-一个面向中文用户的薄肌入门网站。用有来源的知识、一般训练模板和轻量工具，把“想开始”变成能做的下一步。
+薄肌养成指南：薄肌文章、训练计划、饮食策略等。重点面向程序员，写代码，也练身材。
 
-生产域名：`https://lianboji.com`。该地址写入 canonical、站点地图与分享元数据；域名绑定和线上发布需在托管平台完成，仓库代码不代表已经上线。
+访问地址：[lianboji.com](https://lianboji.com)。使用 GitHub Actions 自动部署到 GitHub Pages。
+
+项目技能只安装在 `.agents/skills/taste-skill/`，不会要求全局安装。设计过程与检查记录见 [TASTE-REPORT](docs/TASTE-REPORT.md)。
+
+## 从这里读起
+
+- [下班只剩二十分钟，怎么练？](https://lianboji.com/guides/after-work-twenty-minutes/)
+- [代码没跑完，也可以起身走走](https://lianboji.com/guides/desk-breaks/)
+- [上线周加班，训练怎么保底？](https://lianboji.com/guides/release-week/)
+- [外卖饮食](https://lianboji.com/guides/takeaway-lunch/)与[蛋白质基础](https://lianboji.com/guides/protein-basics/)
+- [训练计划生成器](https://lianboji.com/plan/)、[12 个基础动作](https://lianboji.com/movements/)、[热量与蛋白质工具](https://lianboji.com/tools/)
+- [薄肌理论与原始内容](https://lianboji.com/theory/)
+
+## 原始资料
+
+- [CDC 成人身体活动指南](https://www.cdc.gov/physical-activity-basics/guidelines/adults.html)
+- [ACSM 身体活动指南](https://acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines/)
+- [WHO 身体活动资料](https://www.who.int/news-room/fact-sheets/detail/physical-activity)
+- [OSHA 电脑工作站与工作间歇](https://www.osha.gov/etools/computer-workstations/work-process)
+- [ISSN 蛋白质与运动立场声明](https://doi.org/10.1186/s12970-017-0177-8)
+
+知识文章和模板是独立编辑内容，不代表来源机构认可。网站摄影的作者和许可见[图片署名](https://lianboji.com/credits/)。
 
 ## 本地开发
 
@@ -26,14 +47,15 @@ npm run preview        # 预览生产构建
 
 ## 首版功能
 
-- 首页：原创运动插画、入门引导、推荐指南、工具入口与 FAQ。
+- 首页：真实场景摄影、可直接选时长的课表入口、程序员文章与工具。
 - 入门路径：从目标、第一周计划到动作与恢复。
-- 指南：8 篇原创文章，分类筛选、关键词搜索、目录与参考来源。
+- 指南：16 篇原创文章，分类筛选、关键词搜索、目录与参考来源。
 - 理论观察：原始公开内容与本站解读；人工编辑，不是实时抓取热榜。
 - 动作库：12 个动作，按动作部位与器械名称筛选，含动作要点与简单变式。
 - 训练计划：每周 2 / 3 次，4 种器械条件，20 / 35 / 50 分钟，共 24 种组合；支持下载文字课表与打印。
 - 工具：静息消耗与 TDEE 估算、蛋白质参考范围、可暂停的休息计时器。
 - 全站搜索、移动导航、键盘与减少动态效果支持。
+- 程序员：下班短练、上线周保底、外卖与训练日志内容，配离屏休息工具。
 - SEO：静态 HTML、独立标题和描述、canonical、Article JSON-LD、PNG 分享图、robots 与 sitemap。
 
 ## 技术与目录
@@ -75,7 +97,7 @@ docs/               产品设计、内容维护与部署说明
 | Node.js  | 22.12+                                     |
 | 环境变量 | 无需业务密钥；平台可设置 `NODE_VERSION=22` |
 
-GitHub Actions 只执行校验，不包含发布凭证或自动部署。不要提交 `.env`、账号配置、用户数据或 DNS 凭证到这个 public 仓库。
+GitHub Actions 在 main 更新时校验并部署 GitHub Pages；工作流使用内置短期令牌，无需提交 PAT。不要提交 `.env`、账号配置、用户数据或 DNS 凭证到这个 public 仓库。
 
 ## 验证记录
 

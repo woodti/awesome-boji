@@ -1,232 +1,265 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
-import GuideCard from '../components/GuideCard.astro';
 import { guides } from '../data/guides';
-const featured = ['what-is-lean-muscle', 'beginner-first-week', 'protein-basics'].map((slug) =>
-  guides.find((g) => g.slug === slug)!,
-);
+const picks = [
+  'after-work-twenty-minutes',
+  'desk-breaks',
+  'release-week',
+  'takeaway-lunch',
+  'training-log',
+  'what-is-lean-muscle',
+].map((slug) => guides.find((g) => g.slug === slug)!);
 ---
 
-<Base>
-  <section class="hero wrap">
-    <div class="hero-copy reveal">
-      <div class="eyebrow">给想开始的你 · 一份薄肌行动指南</div>
-      <h1>
-        练一点，
+<Base
+  title="Awesome Boji｜薄肌指南"
+  description="薄肌养成指南：薄肌文章、训练计划、饮食策略等。给程序员的下班短练、久坐休息与日常饮食建议，写代码，也练身材。"
+>
+  <section class="home-opening wrap">
+    <h1 class="opening-title">
+      <span>
+        写代码，
+        <img
+          src="/images/lift.webp"
+          alt="手握哑铃的训练特写"
+          width="220"
+          height="145"
+          fetchpriority="high"
+        />
+      </span>
+      <span>也练薄肌。</span>
+    </h1>
+    <div class="opening-bottom">
+      <p>
+        给久坐、加班、吃外卖的程序员，
         <br />
-        <span class="highlight">好一点。</span>
-      </h1>
-      <p class="hero-intro">
-        不用把生活全部交给健身。
-        <br />
-        从看懂薄肌，到完成今天的一次训练，
-        <br />
-        找到适合自己的节奏，慢慢变强。
+        一份下班后真能用上的训练与生活指南。
       </p>
-      <div class="hero-actions">
-        <a class="button" href="/start/">
-          找到我的第一步 <Icon name="arrow" size={18} />
+      <form class="quick-plan" action="/plan/" method="get">
+        <label for="tonight-time">今晚能留多久？</label>
+        <div class="quick-controls">
+          <select id="tonight-time" name="duration">
+            <option value="20">20 分钟，先动起来</option>
+            <option value="35">35 分钟，慢慢练完</option>
+            <option value="50">50 分钟，时间充足</option>
+          </select>
+          <input type="hidden" name="days" value="2" />
+          <input type="hidden" name="equipment" value="home" />
+          <button class="button" type="submit">
+            拿一份课表
+          </button>
+        </div>
+        <p id="tonight-note">徒手起步，三个动作。先熟悉动作，不赶进度。</p>
+      </form>
+    </div>
+  </section>
+  <section class="switch-scene" aria-labelledby="switch-title">
+    <div class="wrap scene-intro">
+      <h2 id="switch-title">
+        合上电脑，
+        <br />
+        换个场景。
+      </h2>
+      <p>
+        需求不会突然变少，空闲也不会自己出现。
+        <br />
+        先给身体留一段时间，不用等到一切都准备好。
+      </p>
+    </div>
+    <div class="scene-pair">
+      <figure class="desk-photo">
+        <img
+          src="/images/keyboard.webp"
+          width="1400"
+          height="788"
+          alt="双手正在笔记本的背光键盘上打字"
+          loading="lazy"
+        />
+        <figcaption>工作会占满时间。休息，得自己留出来。</figcaption>
+      </figure>
+      <figure class="lift-photo">
+        <img
+          src="/images/lift.webp"
+          width="960"
+          height="1438"
+          alt="训练中，手握哑铃的近景"
+          loading="lazy"
+        />
+        <figcaption>
+          图片来自公开摄影，非站长或用户训练照。<a href="/credits/">查看署名</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="workday-story wrap" aria-labelledby="workday-title">
+    <div class="story-sticky">
+      <h2 id="workday-title">
+        下班之后，
+        <br />
+        怎么开始。
+      </h2>
+      <p>
+        先把一周两次训练排进去。
+        <br />
+        忙的时候用小份，状态好再加一点。
+      </p>
+      <a href="/developers/" class="text-link">
+        看程序员开练路线
+      </a>
+    </div>
+    <div class="story-chapters">
+      <article class="story-chapter">
+        <h3>练一组。</h3>
+        <p>从已经学会的蹲、推、拉开始。居家也行，健身房也行，器械条件不同，课表跟着变。</p>
+        <a class="text-link" href="/guides/after-work-twenty-minutes/">
+          二十分钟怎么安排
         </a>
-        <a class="button secondary" href="/plan/">
-          生成训练计划 <Icon name="plus" size={17} />
+      </article>
+      <article class="story-chapter meal-chapter">
+        <img
+          src="/images/meal.webp"
+          width="960"
+          height="640"
+          loading="lazy"
+          alt="一碗配有鸡肉和鸡蛋的米饭"
+        />
+        <h3>好好吃饭。</h3>
+        <p>先看看外卖里有没有主食、蛋白质来源和蔬菜。吃得明白，比给每顿饭贴上“健身”标签有用。</p>
+        <a class="text-link" href="/guides/takeaway-lunch/">
+          外卖党怎么吃
         </a>
-      </div>
-      <div class="hero-footnote">
-        <Icon name="check" size={15} />
-        <span>免费使用</span>
-        <span>·</span>
-        <span>无需注册</span>
-        <span>·</span>
-        <span>从自己的起点出发</span>
-      </div>
-    </div>
-    <div class="hero-art reveal reveal-delay">
-      <img
-        src="/images/athlete.svg"
-        width="720"
-        height="860"
-        alt="原创运动插画：深绿背景下，一位穿着浅色训练服的运动者正在迈步，身后是荧光黄圆形。"
-        fetchpriority="high"
-      />
-      <div class="hero-caption">
-        <small>A LITTLE, EVERY DAY.</small>
-        <strong>先开始，再慢慢来。</strong>
-        <span>你的节奏，就是好节奏。</span>
-      </div>
+      </article>
+      <article class="story-chapter">
+        <h3>也留点空白。</h3>
+        <p>休息日走走，睡不够就调整。训练记录里空着几天，不需要下一次拼命补回来。</p>
+        <a class="text-link" href="/guides/release-week/">
+          上线周的保底安排
+        </a>
+      </article>
     </div>
   </section>
-  <div class="manifesto-strip">
-    <div class="manifesto-inner wrap">
-      <span class="manifesto-title">LESS HYPE. MORE ACTION.</span>
-      <div>
-        <Icon name="book" size={17} />
-        <span>知识有出处</span>
-        <small>KNOW THE WHY</small>
-      </div>
-      <div>
-        <Icon name="barbell" size={19} />
-        <span>训练有路径</span>
-        <small>FIND YOUR WAY</small>
-      </div>
-      <div>
-        <Icon name="sun" size={18} />
-        <span>进步不着急</span>
-        <small>KEEP IT GOING</small>
-      </div>
-    </div>
-  </div>
-  <section class="section wrap">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow">YOUR FIRST STEP</div>
-        <h2>你现在，走到哪一步？</h2>
-      </div>
-      <a class="text-link" href="/start/">
-        查看入门路径 <Icon size={17} />
-      </a>
-    </div>
-    <div class="start-grid">
-      <a class="start-card featured" href="/guides/what-is-lean-muscle/">
-        <div class="step-top">
-          <span class="step-number">01</span>
-          <Icon name="book" size={23} />
-        </div>
-        <h3>先看懂，再开始</h3>
-        <p>薄肌到底是什么？用几分钟弄清目标，少一点身材焦虑。</p>
-        <div class="card-bottom">
-          <span>认识薄肌</span>
-          <Icon name="diagonal" />
-        </div>
-      </a>
-      <a class="start-card" href="/plan/">
-        <div class="step-top">
-          <span class="step-number">02</span>
-          <Icon name="barbell" size={25} />
-        </div>
-        <h3>找到能坚持的练法</h3>
-        <p>居家也好，健身房也好。从你有的时间和器械开始安排。</p>
-        <div class="card-bottom">
-          <span>安排我的训练</span>
-          <Icon name="diagonal" />
-        </div>
-      </a>
-      <a class="start-card" href="/guides/protein-basics/">
-        <div class="step-top">
-          <span class="step-number">03</span>
-          <Icon name="sun" size={24} />
-        </div>
-        <h3>吃好，也休息好</h3>
-        <p>把训练放回生活。看懂饮食和恢复，让下周还能继续。</p>
-        <div class="card-bottom">
-          <span>了解饮食恢复</span>
-          <Icon name="diagonal" />
-        </div>
-      </a>
-    </div>
-  </section>
-  <section class="section-sm wrap" style="padding-top:0">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow">THE ESSENTIALS</div>
-        <h2>先读这几篇，就够开始。</h2>
-      </div>
-      <a class="text-link" href="/guides/">
-        所有指南 <Icon size={17} />
-      </a>
-    </div>
-    <div class="guide-grid">
-      {featured.map((guide) => (
-        <GuideCard guide={guide} visual />
-      ))}
-    </div>
-  </section>
-  <section class="section wrap">
-    <div class="tools-promo">
-      <div>
-        <div class="eyebrow" style="color:var(--lime)">
-          SMALL TOOLS, CLEARER STEPS
-        </div>
-        <h2>
-          少一点猜测，
-          <br />
-          多一点心里有数。
-        </h2>
-        <p>一天大概消耗多少热量？蛋白质怎么估算？用简单的工具，把抽象数字变成看得懂的参考。</p>
-        <a class="button lime" href="/tools/">
-          打开实用工具 <Icon name="arrow" size={18} />
+  <section class="reading-desk wrap">
+    <h2>
+      先解决，
+      <br />
+      你遇到的问题。
+    </h2>
+    <div class="reading-layout">
+      <figure>
+        <img
+          src="/images/walk.webp"
+          width="960"
+          height="540"
+          loading="lazy"
+          alt="绿树环绕的公园步行小路"
+        />
+        <figcaption>训练之外，也有普通的散步和生活。</figcaption>
+      </figure>
+      <div class="reading-list">
+        {picks.map((guide) => (
+          <a href={`/guides/${guide.slug}/`}>
+            <h3>{guide.title}</h3>
+            <p>{guide.summary}</p>
+          </a>
+        ))}
+        <a href="/guides/" class="reading-all">
+          浏览全部 {guides.length} 篇指南
         </a>
       </div>
-      <div class="tools-preview" aria-label="蛋白质计算示例：体重70公斤，参考范围每天98至140克">
-        <div class="preview-head">
-          <span>每日蛋白质参考</span>
-          <Icon name="calculator" size={18} />
-        </div>
-        <div class="preview-weight">
-          70 <small>kg / 体重示例</small>
-        </div>
-        <div class="preview-track"></div>
-        <div class="preview-output">
-          <span>参考范围 / 每天</span>
-          <strong>
-            98–140 <small>g</small>
-          </strong>
-        </div>
-        <p>健康成年运动者参考范围 · 结果因人而异</p>
-      </div>
     </div>
   </section>
-  <section class="section-sm wrap">
-    <div class="faq-grid">
+  <section class="theory-note">
+    <div class="wrap theory-note-inner">
+      <h2>
+        薄肌热起来了，
+        <br />
+        也把依据看清楚。
+      </h2>
       <div>
-        <div class="eyebrow">A FEW GOOD QUESTIONS</div>
-        <h2>
-          开始前，
-          <br />
-          你可能也想问。
-        </h2>
-        <p>把常见的困惑，先放下来。</p>
-        <a class="text-link" href="/about/" style="margin-top:22px">
-          了解我们的编辑原则 <Icon size={17} />
+        <p>训练可以借一个热词开始。但体型审美、创作者的生活观点和训练知识，值得分开看。</p>
+        <p>我们保留原内容入口，标出编辑解读，不编造“几周练成”的保证。</p>
+        <a class="text-link" href="/theory/">
+          读薄肌理论观察
         </a>
       </div>
-      <div class="faq-list">
-        <details>
-          <summary>薄肌是一套特定的训练方法吗？</summary>
-          <p>
-            “薄肌”通常是对身材外观的描述，没有统一的医学定义。本站从一般训练原则出发，帮助你建立练习习惯，不把某个热词当成适合所有人的训练处方。
-          </p>
-        </details>
-        <details>
-          <summary>零基础、没有健身卡，可以开始吗？</summary>
-          <p>
-            可以从安全、可控的徒手动作开始。计划生成器提供纯徒手、弹力带、哑铃和健身房版本。纯徒手版有动作覆盖限制，页面会说明；也可以先浏览动作库，找到更容易的变式。
-          </p>
-        </details>
-        <details>
-          <summary>多长时间能练成薄肌？</summary>
-          <p>
-            没有对所有人都成立的时间表。起点、身体差异、训练、饮食和恢复都会影响结果。先把目标设成规律完成训练、动作更稳和表现逐步提高，比承诺几周改变身材更实在。
-          </p>
-        </details>
-        <details>
-          <summary>这里和“薄肌理论”的创作者有关吗？</summary>
-          <p>
-            没有。练薄肌是独立内容项目。理论观察栏目会链接原始公开内容，区分创作者观点、本站解读和训练资料，不代表相关人物的授权或背书。
-          </p>
-        </details>
-      </div>
     </div>
   </section>
-  <div class="wrap section-sm">
-    <div class="bottom-cta">
-      <div>
-        <h2>下一步，不用很大。</h2>
-        <p>给这周留两个时间，从一次可控的训练开始。</p>
-      </div>
-      <a class="button" href="/plan/">
-        安排我的第一周 <Icon name="arrow" size={18} />
+  <section class="home-tools wrap">
+    <h2>工具放在手边。</h2>
+    <div class="tool-link-list">
+      <a href="/plan/">
+        <h3>今晚练什么</h3>
+        <p>按时间和器械生成课表，下载、打印就能带走。</p>
+        <span>打开训练计划</span>
+      </a>
+      <a href="/tools/">
+        <h3>今天大概吃多少</h3>
+        <p>看懂热量消耗和蛋白质参考范围，公式公开。</p>
+        <span>使用计算工具</span>
+      </a>
+      <a href="/developers/#desk-break">
+        <h3>先离屏五分钟</h3>
+        <p>构建和排查之间，也给自己一个起身的空档。</p>
+        <span>开始一次小休息</span>
+      </a>
+      <a href="/movements/">
+        <h3>这个动作怎么做</h3>
+        <p>看动作要点，也看看更容易的版本。</p>
+        <span>翻翻动作库</span>
       </a>
     </div>
-  </div>
+  </section>
+  <section class="home-faq wrap">
+    <h2>开始之前，聊几个实在的问题。</h2>
+    <div class="faq-list">
+      <details>
+        <summary>程序员练薄肌，需要特殊练法吗？</summary>
+        <p>
+          不需要一个新的训练流派。我们针对的是时间、久坐工作和吃饭场景；基本训练仍是逐步学习动作、合适负荷和恢复。
+        </p>
+      </details>
+      <details>
+        <summary>不想办卡，也没有器械，能开始吗？</summary>
+        <p>
+          可以先使用徒手版本。它有上肢拉动作不足的限制，计划页会说明。先用现有条件练几次，再决定有没有必要买器材。
+        </p>
+      </details>
+      <details>
+        <summary>加班太晚，漏练一次怎么办？</summary>
+        <p>
+          回到下一次正常安排，保留恢复间隔。连续几周都排不进去，就缩小课表。没有打卡惩罚，也不需要周末补偿式猛练。
+        </p>
+      </details>
+      <details>
+        <summary>这里有没有站长的训练战绩？</summary>
+        <p>
+          目前没有发布个人训练实录，不会把参考照片当成自己的成绩。本站提供的是有来源的知识和能用的工具；以后若发布训练记录，会注明实际时间与背景。
+        </p>
+      </details>
+      <details>
+        <summary>算出来的热量和蛋白质，是必须吃到的数字吗？</summary>
+        <p>
+          不是。它们是一般估算和参考范围，受个体与活动情况影响。结果页保留公式和适用范围，不直接给你下节食处方。
+        </p>
+      </details>
+      <details>
+        <summary>身体数据会被保存吗？</summary>
+        <p>
+          不会。工具只在当前页面计算，没有账号、数据上传和排名。你可以自己下载课表，不需要留下身体资料。
+        </p>
+      </details>
+    </div>
+  </section>
+  <script>
+    const select = document.querySelector<HTMLSelectElement>('#tonight-time')!;
+    const note = document.querySelector('#tonight-note')!;
+    const notes: Record<string, string> = {
+      20: '徒手起步，三个动作。先熟悉动作，不赶进度。',
+      35: '四个基础动作，给热身与休息留出余量。',
+      50: '四个动作，每个三组。按恢复情况完成，不必练满时间。',
+    };
+    select.addEventListener('change', () => {
+      note.textContent = notes[select.value];
+    });
+  </script>
 </Base>

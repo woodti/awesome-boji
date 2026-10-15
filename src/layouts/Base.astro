@@ -9,7 +9,7 @@ interface Props {
   schema?: Record<string, unknown>;
 }
 const {
-  title = '练薄肌｜薄肌入门、训练计划与饮食指南',
+  title = 'Awesome Boji｜薄肌指南',
   description = '从薄肌是什么，到今天怎么练。练薄肌提供有来源的入门指南、训练计划生成器、动作库和营养计算工具，陪你建立能坚持的训练习惯。',
   noindex = false,
   schema,
@@ -17,11 +17,11 @@ const {
 const pathname = Astro.url.pathname;
 const canonical = new URL(pathname, Astro.site);
 const navigation = [
-  { href: '/start/', label: '从这里开始' },
-  { href: '/guides/', label: '薄肌指南' },
-  { href: '/plan/', label: '训练计划' },
-  { href: '/tools/', label: '实用工具' },
-  { href: '/theory/', label: '理论观察' },
+  { href: '/developers/', label: '程序员' },
+  { href: '/guides/', label: '指南' },
+  { href: '/plan/', label: '课表' },
+  { href: '/tools/', label: '工具' },
+  { href: '/theory/', label: '薄肌理论' },
 ];
 const searchItems = [
   ...guides.map((g) => ({
@@ -58,7 +58,7 @@ const searchItems = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#193d33" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {noindex && <meta name="robots" content="noindex, follow" />}
@@ -67,7 +67,7 @@ const searchItems = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="练薄肌" />
+    <meta property="og:site_name" content="Awesome Boji" />
     <meta property="og:image" content={new URL('/images/og.png', Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
     <script
@@ -76,8 +76,8 @@ const searchItems = [
         schema || {
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: '练薄肌',
-          alternateName: 'LIANBOJI',
+          name: 'Awesome Boji',
+          alternateName: '薄肌指南',
           url: Astro.site?.href,
           inLanguage: 'zh-CN',
         },
@@ -90,10 +90,10 @@ const searchItems = [
     </a>
     <header class="site-header">
       <div class="header-inner wrap">
-        <a class="brand" href="/" aria-label="练薄肌首页">
+        <a class="brand" href="/" aria-label="Awesome Boji 首页">
           <img src="/favicon.svg" width="34" height="34" alt="" />
           <span>
-            练薄肌<small>LIANBOJI</small>
+            Awesome Boji<small>薄肌指南</small>
           </span>
         </a>
         <nav class="desktop-nav" aria-label="主导航">
@@ -142,48 +142,38 @@ const searchItems = [
       <slot />
     </main>
     <footer class="site-footer">
-      <div class="wrap footer-top">
+      <div class="wrap footer-content">
         <div>
-          <a class="brand" href="/">
-            <img src="/favicon.svg" width="34" height="34" alt="" />
-            <span>
-              练薄肌<small>LIANBOJI</small>
-            </span>
+          <h2>给身体，也留点时间。</h2>
+          <p>写代码，也练身材。按自己的节奏来。</p>
+          <a class="button" href="/plan/">
+            拿一份课表
           </a>
-          <p>
-            练一点，好一点。
-            <br />
-            把身体的主动权，慢慢拿回来。
-          </p>
         </div>
-        <div class="footer-links">
-          <div>
-            <span>开始行动</span>
-            <a href="/start/">入门路径</a>
-            <a href="/plan/">生成训练计划</a>
-            <a href="/movements/">浏览动作库</a>
-          </div>
-          <div>
-            <span>保持好奇</span>
-            <a href="/guides/">所有指南</a>
-            <a href="/theory/">薄肌理论观察</a>
-            <a href="/tools/">实用计算工具</a>
-          </div>
-          <div>
-            <span>关于本站</span>
-            <a href="/about/">编辑原则与来源</a>
-            <a href="/privacy/">隐私说明</a>
-            <a href="https://github.com/woodti/lianboji" target="_blank" rel="noopener noreferrer">
-              GitHub ↗
-            </a>
-          </div>
-        </div>
+        <nav class="footer-nav" aria-label="页脚导航">
+          <a href="/start/">从零开始</a>
+          <a href="/about/">关于本站</a>
+          <a href="/privacy/">隐私说明</a>
+          <a href="/credits/">图片署名</a>
+          <a
+            href="https://github.com/woodti/awesome-boji"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </nav>
       </div>
-      <div class="wrap footer-bottom">
-        <span>© {new Date().getFullYear()} 练薄肌 · 独立内容项目</span>
-        <span>内容用于一般健康成年人学习参考，依自身情况调整。</span>
-        <a href="#main">回到顶部 ↑</a>
+      <div class="wrap footer-note">
+        <p>独立内容项目。知识与模板面向一般健康成年人，按自己的情况调整。</p>
+        <p>
+          摄影来自公开资料库，不代表站长或用户实录。<a href="/credits/">作者与许可</a>
+        </p>
+        <span>© {new Date().getFullYear()} Awesome Boji</span>
       </div>
+      <p class="footer-wordmark" aria-hidden="true">
+        Boji
+      </p>
     </footer>
     <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title">
       <div class="search-heading">
@@ -205,6 +195,28 @@ const searchItems = [
       <div id="search-results" class="search-results" aria-live="polite"></div>
       <p class="search-hint">搜索站内指南与工具 · 按 Esc 关闭</p>
     </dialog>
+    <script>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                const row = el.matches('.reading-list > a');
+                el.classList.add(row ? 'row-enter' : 'scroll-enter');
+                observer.unobserve(el);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        document
+          .querySelectorAll(
+            '.scene-intro > *, .story-chapter > *, .reading-list > a, .theory-note-inner > *, .tool-link-list > a, .home-faq > h2',
+          )
+          .forEach((el) => observer.observe(el));
+      }
+    </script>
     <script define:vars={{ searchItems }}>
       const dialog = document.querySelector('#search-dialog');
       const input = document.querySelector('#global-search');

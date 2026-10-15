@@ -1,4 +1,13 @@
+import { developerGuides } from './developer-guides';
 export const sources = {
+  osha: {
+    title: 'OSHA · 电脑工作站与工作间歇',
+    url: 'https://www.osha.gov/etools/computer-workstations/work-process',
+  },
+  who: {
+    title: 'WHO · 身体活动资料页',
+    url: 'https://www.who.int/news-room/fact-sheets/detail/physical-activity',
+  },
   cdc: {
     title: 'CDC · 成人身体活动指南',
     url: 'https://www.cdc.gov/physical-activity-basics/guidelines/adults.html',
@@ -27,22 +36,19 @@ export type Guide = {
   category: string;
   summary: string;
   minutes: number;
-  number: string;
-  theme: string;
   takeaway: string;
   sections: { title: string; paragraphs: string[]; list?: string[] }[];
   sources: (keyof typeof sources)[];
 };
 
 export const guides: Guide[] = [
+  ...developerGuides,
   {
     slug: 'what-is-lean-muscle',
     title: '薄肌是什么？先弄清你想练成什么样',
     category: '薄肌入门',
     summary: '把身材热词，翻译成肌肉量、体脂和能坚持的生活方式。',
     minutes: 4,
-    number: '01',
-    theme: 'green',
     takeaway: '把目标从“像某张照片”，换成“每周能稳定训练，动作和力量慢慢进步”。',
     sections: [
       {
@@ -81,8 +87,6 @@ export const guides: Guide[] = [
     category: '训练方法',
     summary: '不用每天去健身房。从两次全身练习，建立你的第一份课表。',
     minutes: 5,
-    number: '02',
-    theme: 'lime',
     takeaway: '第一周的成果，是完成两次可控的训练，并愿意下周继续。',
     sections: [
       {
@@ -124,8 +128,6 @@ export const guides: Guide[] = [
     category: '训练方法',
     summary: '不是每次都练到极限，而是让训练留下可比较的进步。',
     minutes: 4,
-    number: '03',
-    theme: 'sand',
     takeaway: '同样动作、同样幅度、同样控制下的进步，才值得比较。',
     sections: [
       {
@@ -161,8 +163,6 @@ export const guides: Guide[] = [
     category: '饮食恢复',
     summary: '先看一天的总量，再把它放回正常三餐。补剂不是起点。',
     minutes: 5,
-    number: '04',
-    theme: 'orange',
     takeaway: '工具算出的是食物里的蛋白质克数，不是蛋白粉克数，也不是食物重量。',
     sections: [
       {
@@ -203,8 +203,6 @@ export const guides: Guide[] = [
     category: '饮食恢复',
     summary: '理解基础代谢、活动系数和每日消耗，避免把估算当成精确处方。',
     minutes: 4,
-    number: '05',
-    theme: 'green',
     takeaway: '计算结果是估算，不是你每天必须吃到的精确数字。',
     sections: [
       {
@@ -240,8 +238,6 @@ export const guides: Guide[] = [
     category: '薄肌入门',
     summary: '比较时间、器械和进阶空间，找到适合当下的训练场景。',
     minutes: 3,
-    number: '06',
-    theme: 'sand',
     takeaway: '先使用已有条件。连续训练几周后，再决定要不要买器材或办卡。',
     sections: [
       {
@@ -274,8 +270,6 @@ export const guides: Guide[] = [
     category: '饮食恢复',
     summary: '训练之外，把睡眠、轻松活动和恢复放进同一份计划。',
     minutes: 3,
-    number: '07',
-    theme: 'lime',
     takeaway: '好的课表能重复执行，不需要每次都透支。',
     sections: [
       {
@@ -305,8 +299,6 @@ export const guides: Guide[] = [
     category: '理论观察',
     summary: '从公开内容理解这个话题，同时给训练建议保留证据边界。',
     minutes: 4,
-    number: '08',
-    theme: 'orange',
     takeaway: '可以借一个热词开始行动，但不必把所有围绕它的观点都当成事实。',
     sections: [
       {
@@ -338,4 +330,4 @@ export const guides: Guide[] = [
   },
 ];
 
-export const categories = ['全部', '薄肌入门', '训练方法', '饮食恢复', '理论观察'];
+export const categories = ['全部', '程序员日常', '薄肌入门', '训练方法', '饮食恢复', '理论观察'];

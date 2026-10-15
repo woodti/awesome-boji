@@ -16,14 +16,14 @@ const schema = {
   datePublished: '2026-10-15',
   dateModified: '2026-10-15',
   inLanguage: 'zh-CN',
-  author: { '@type': 'Organization', name: '练薄肌编辑部', url: 'https://lianboji.com/about/' },
+  author: { '@type': 'Organization', name: 'Awesome Boji', url: 'https://lianboji.com/about/' },
   publisher: { '@type': 'Organization', name: '练薄肌', url: 'https://lianboji.com/' },
   mainEntityOfPage: `https://lianboji.com/guides/${guide.slug}/`,
   image: 'https://lianboji.com/images/og.png',
 };
 ---
 
-<Base title={`${guide.title}｜练薄肌`} description={guide.summary} schema={schema}>
+<Base title={`${guide.title}｜Awesome Boji`} description={guide.summary} schema={schema}>
   <div class="wrap">
     <header class="article-header">
       <nav class="breadcrumb" aria-label="面包屑">
@@ -33,13 +33,13 @@ const schema = {
         <span>/</span>
         <span>{guide.category}</span>
       </nav>
-      <div class="eyebrow">FIELD NOTES / {guide.number}</div>
+
       <h1>{guide.title}</h1>
       <p>{guide.summary}</p>
       <div class="article-meta">
         <span>{guide.category}</span>
         <span>{guide.minutes} 分钟阅读</span>
-        <span>练薄肌编辑部</span>
+        <span>Awesome Boji</span>
         <time datetime="2026-10-15">更新于 2026.10.15</time>
       </div>
     </header>

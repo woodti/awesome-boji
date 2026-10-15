@@ -1,5 +1,5 @@
 {
-  "name": "lianboji",
+  "name": "awesome-boji",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -19,7 +19,6 @@
   "dependencies": {
     "@fontsource-variable/noto-sans-sc": "^5.3.1",
     "@fontsource-variable/noto-serif-sc": "^5.3.1",
-    "@fontsource/barlow-condensed": "^5.3.0",
     "astro": "7.3.8"
   },
   "devDependencies": {

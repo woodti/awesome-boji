@@ -6,7 +6,7 @@ const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
 ---
 
 <Base
-  title="薄肌入门动作库｜动作要点与简单变式｜练薄肌"
+  title="薄肌入门动作库｜动作要点与简单变式｜Awesome Boji"
   description="浏览徒手、弹力带、哑铃与健身房入门动作。查看深蹲、俯卧撑、划船等动作的练习要点与降低难度的方法。"
 >
   <div class="wrap page-heading">
@@ -15,7 +15,7 @@ const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
       <span>/</span>
       <span>动作库</span>
     </nav>
-    <div class="eyebrow">THE MOVEMENT LIBRARY</div>
+
     <h1>先把动作，练得从容。</h1>
     <p>从基础动作模式开始。点开动作查看要点，再按自己的能力降低难度。</p>
   </div>
@@ -35,7 +35,7 @@ const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
       </label>
     </div>
     <div class="movement-grid">
-      {movements.map((movement, i) => (
+      {movements.map((movement) => (
         <article
           class="movement-card"
           id={movement.id}
@@ -51,7 +51,6 @@ const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
               <span>
                 {movement.group} / {movement.equipment}
               </span>
-              <span>{String(i + 1).padStart(2, '0')}</span>
             </div>
             <h2>{movement.name}</h2>
             <p>{movement.cue}</p>

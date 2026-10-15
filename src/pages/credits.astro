@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { credits } from '../data/credits';
+---
+
+<Base
+  title="图片作者与许可｜Awesome Boji"
+  description="练薄肌采用的公开摄影、原作者、原始链接与许可说明。这些图片不代表站长或用户的真实训练记录。"
+>
+  <div class="wrap page-heading">
+    <h1>图片，也有出处。</h1>
+    <p>
+      本站的实拍来自 Wikimedia
+      Commons，展示训练与日常场景。它们不是站长、团队或用户的照片，也不作为训练成果证明。
+    </p>
+  </div>
+  <article class="wrap prose-page">
+    {credits.map((photo) => (
+      <section class="credits-entry">
+        <img
+          src={`/images/${photo.file}.webp`}
+          width="240"
+          height="155"
+          alt={photo.title}
+          loading="lazy"
+        />
+        <h2>{photo.title}</h2>
+        <p>
+          作者：{photo.creator}。来源：
+          <a href={photo.url} target="_blank" rel="noopener noreferrer">
+            Wikimedia Commons 原图页面
+          </a>
+          。许可：
+          <a href={photo.licenseUrl} target="_blank" rel="noopener noreferrer">
+            {photo.license}
+          </a>
+          。
+        </p>
+        <p>
+          本站版本仅做尺寸缩小、WebP
+          转码，并在页面按版面裁切显示。图片及其衍生版本继续遵循上述原始许可；其中键盘图片按 CC
+          BY-SA 4.0 提供。
+        </p>
+      </section>
+    ))}
+    <h2>字体与设计技能</h2>
+    <p>
+      中文标题采用 Noto Serif SC，正文采用 Noto Sans SC，均由 Fontsource 随站点打包，采用 SIL Open
+      Font License。项目级设计技能来自{' '}
+      <a href="https://github.com/Leonxlnx/taste-skill" target="_blank" rel="noopener noreferrer">
+        Leonxlnx/taste-skill
+      </a>
+      ，使用 MIT 许可，保留在本项目的 <code>.agents/skills/</code>。
+    </p>
+  </article>
+</Base>

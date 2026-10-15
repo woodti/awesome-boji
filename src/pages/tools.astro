@@ -4,18 +4,16 @@ import Icon from '../components/Icon.astro';
 ---
 
 <Base
-  title="薄肌实用工具｜每日热量、蛋白质计算器与组间计时｜练薄肌"
+  title="薄肌实用工具｜每日热量、蛋白质计算器与组间计时｜Awesome Boji"
   description="使用每日能量消耗估算、蛋白质参考量计算器和组间休息计时器。公开公式与来源，输入只在当前浏览器页面计算。"
 >
   <div class="wrap page-heading">
-    <div class="eyebrow">A LITTLE MORE CLARITY</div>
     <h1>让数字，变得好理解。</h1>
     <p>估算是一份起点，不是一张处方。先了解自己的大致范围，再结合实际训练和生活调整。</p>
   </div>
   <section class="wrap section-sm" style="padding-top:0">
     <div class="tools-layout">
       <section class="panel" aria-labelledby="energy-title">
-        <span class="eyebrow">01 / ENERGY</span>
         <h2 id="energy-title">每日热量消耗估算</h2>
         <p class="subtitle">Mifflin–St Jeor 公式 × 活动系数</p>
         <form id="energy-form">
@@ -105,7 +103,7 @@ import Icon from '../components/Icon.astro';
         </p>
         <a
           class="text-link"
-          style="margin-top:15px;font-size:11px"
+          style="margin-top:15px;font-size:14px"
           href="/guides/energy-estimation/"
         >
           查看公式、来源与使用边界
@@ -114,7 +112,6 @@ import Icon from '../components/Icon.astro';
       </section>
       <div class="tools-side">
         <section class="panel" id="protein" aria-labelledby="protein-title">
-          <span class="eyebrow">02 / PROTEIN</span>
           <h2 id="protein-title">每日蛋白质参考</h2>
           <p class="subtitle">健康成年运动者：1.4–2.0 g / kg / 天</p>
           <form id="protein-form">
@@ -150,14 +147,13 @@ import Icon from '../components/Icon.astro';
           <a
             class="text-link"
             href="/guides/protein-basics/"
-            style="margin-top:13px;font-size:11px"
+            style="margin-top:13px;font-size:14px"
           >
             如何放进正常三餐
             <Icon size={15} />
           </a>
         </section>
         <section class="panel" id="rest-timer" aria-labelledby="timer-title">
-          <span class="eyebrow">03 / REST</span>
           <h2 id="timer-title">组间休息计时</h2>
           <p class="subtitle">按自己的恢复情况休息，不用赶下一组。</p>
           <div class="timer-options" aria-label="选择休息时长">

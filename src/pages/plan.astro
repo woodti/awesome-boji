@@ -8,11 +8,10 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
 ---
 
 <Base
-  title="薄肌训练计划生成器｜居家、哑铃与健身房入门课表｜练薄肌"
+  title="薄肌训练计划生成器｜居家、哑铃与健身房入门课表｜Awesome Boji"
   description="按每周两次或三次、器械条件和训练时长生成第一周入门训练模板。包含动作要点、休息安排、下载与打印功能。"
 >
   <div class="wrap page-heading">
-    <div class="eyebrow">MAKE ROOM FOR MOVEMENT</div>
     <h1>把训练，放进你的生活。</h1>
     <p>不需要每天有空。选好时间和器械条件，生成一份可以开始的第一周模板。</p>
   </div>
@@ -108,11 +107,10 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
                 </h3>
                 <span>循序开始 · 先练动作</span>
               </div>
-              {session.exercises.map((id, i) => {
+              {session.exercises.map((id) => {
                 const exercise = movements.find((m) => m.id === id)!;
                 return (
                   <div class="exercise-row">
-                    <span>{String(i + 1).padStart(2, '0')}</span>
                     <div>
                       <a href={`/movements/#${exercise.id}`}>{exercise.name} ↗</a>
                       <small>{exercise.cue}</small>
@@ -146,7 +144,8 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
           </a>
         </div>
         <p class="result-explainer">
-          模板由练薄肌编辑整理。训练日可以整体平移，保留恢复间隔。时长包含准备和休息的粗略预留，实际用时因练习节奏而异。参考：
+          模板由Awesome Boji
+          编辑整理。训练日可以整体平移，保留恢复间隔。时长包含准备和休息的粗略预留，实际用时因练习节奏而异。参考：
           <a
             href="https://acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines/"
             target="_blank"
@@ -208,7 +207,7 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
           make('span', '', '循序开始 · 先练动作'),
         );
         section.append(heading);
-        session.exercises.forEach((id, index) => {
+        session.exercises.forEach((id) => {
           const exercise = movements.find((m) => m.id === id)!;
           const row = make('div', 'exercise-row');
           const body = make('div', '');
@@ -217,7 +216,6 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
           link.textContent = exercise.name + ' ↗';
           body.append(link, make('small', '', exercise.cue));
           row.append(
-            make('span', '', String(index + 1).padStart(2, '0')),
             body,
             make('div', '', `${plan.sets} 组 × ${id === 'dead-bug' ? '每侧 6–8' : '8–12'} 次`),
           );
@@ -247,13 +245,36 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
       });
       render();
     });
+    const params = new URLSearchParams(location.search);
+    if (params.has('duration') || params.has('equipment') || params.has('days')) {
+      try {
+        plan = generatePlan({
+          days: Number(params.get('days') || 2),
+          equipment: params.get('equipment') || 'home',
+          duration: Number(params.get('duration') || 35),
+        });
+        for (const [name, value] of Object.entries({
+          days: plan.days,
+          equipment: plan.equipment,
+          duration: plan.duration,
+        })) {
+          const radio = Array.from(
+            form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`),
+          ).find((input) => input.value === String(value));
+          if (radio) radio.checked = true;
+        }
+        render();
+      } catch {
+        /* Invalid share options keep the readable default plan. */
+      }
+    }
     document.querySelector('#print-plan')!.addEventListener('click', () => window.print());
     document.querySelector('#download-plan')!.addEventListener('click', () => {
       const lines = [
         '# 练薄肌 · 我的第一周',
         String(description.textContent),
         '',
-        '先预留约 5–8 分钟热身，选用轻阻力；组间休息约 60–120 秒，必要时更久。',
+        '先预留约 5–8 分钟热身，选用轻阻力；组间休息约 60–120 秒，必要时更久。单侧动作每侧完成。',
         '',
       ];
       plan.sessions.forEach((session) => {
