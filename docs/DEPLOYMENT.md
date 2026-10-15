@@ -28,6 +28,8 @@ Spaceship 名称服务器保留 `launch1.spaceship.net` 与 `launch2.spaceship.n
 | A     | `@`   | `185.199.111.153`  |
 | CNAME | `www` | `woodti.github.io` |
 
+另有一条根域名 TXT 用于 Google Search Console 所有权验证，应长期保留；具体值在站长账号内查看。
+
 这五条是网站解析，不是 URL 遮罩或注册商网页转发。`www` 的目标不包含 `/awesome-boji`，也不写 `https://`。Spaceship 对同一主机的多条 A 记录可能显示“冲突记录”提示，但这里的四条地址是 GitHub Pages 官方配置，不应删成一条。
 
 不需要为网站调整邮件记录，也不要添加通配符解析。将来改托管平台时，再针对 `@` 和 `www` 更换对应记录。
