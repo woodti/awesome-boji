@@ -27,7 +27,10 @@
 - Spaceship 5 条 DNS 记录已保存：根域名 4 条 GitHub Pages A，www CNAME 指向 woodti.github.io。
 - DNS 查询能获得这四条 A 与正确 CNAME；GitHub Pages health 判定根域名与 www 均 `is_valid=true`。
 - 仓库已改名 `woodti/awesome-boji`，Pages `build_type=workflow`，自定义域名仍为 lianboji.com。
-- 正式发布结果、HTTPS 与地址跳转需要在 Actions 部署后独立检查。以实际工作流与 HTTP 请求结果为准。
+- GitHub Actions 发布 [38689005373](https://github.com/woodti/awesome-boji/actions/runs/38689005373) 构建和部署均成功，发布提交 `fbe1665`。
+- GitHub 证书已批准，覆盖根域名与 www；已开启 Enforce HTTPS。
+- 实际请求验证：HTTP 根域名、HTTPS www 均转到 `https://lianboji.com/`，最终返回 200；蛋白质文章、工具、`sitemap.xml` 与 `robots.txt` 返回 200，不存在的页面返回 404。
+- 线上浏览器已确认新品牌和首页内容；离屏计时实际倒计时、暂停与重置验证通过。
 
 ## 范围
 

@@ -34,7 +34,7 @@ Spaceship 名称服务器保留 `launch1.spaceship.net` 与 `launch2.spaceship.n
 
 ## HTTPS 与地址归一
 
-GitHub Pages 为自定义域名签发证书。证书就绪后开启 Enforce HTTPS，验证：
+截至 2026 年 10 月 15 日，GitHub Pages 证书已批准并已开启 Enforce HTTPS。实际验证通过：
 
 - `http://lianboji.com` → `https://lianboji.com/`。
 - `https://www.lianboji.com` → `https://lianboji.com/`。
