@@ -12,6 +12,10 @@ export const sources = {
     title: 'CDC · 成人身体活动指南',
     url: 'https://www.cdc.gov/physical-activity-basics/guidelines/adults.html',
   },
+  sleep: {
+    title: 'CDC · 睡眠时长、质量与日常习惯（2024-05-15）',
+    url: 'https://www.cdc.gov/sleep/about/',
+  },
   acsm: {
     title: 'ACSM · 身体活动指南',
     url: 'https://acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines/',
@@ -362,8 +366,9 @@ export const guides: Guide[] = [
     slug: 'recovery-and-consistency',
     title: '休息日怎么安排？让训练接得上下周',
     category: '饮食恢复',
-    summary: '训练之外，把睡眠、轻松活动和恢复放进同一份计划。',
-    minutes: 3,
+    summary: '休息日可以轻松走动，也要留出睡眠时间。看懂成人睡眠参考，加班晚归时给恢复留一点余量。',
+    minutes: 4,
+    updatedAt: '2026-10-15',
     takeaway: '好的课表能重复执行，不需要每次都透支。',
     sections: [
       {
@@ -379,13 +384,32 @@ export const guides: Guide[] = [
         ],
       },
       {
+        title: '把睡觉时间也排进去',
+        paragraphs: [
+          'CDC 的睡眠资料对 18–60 岁成年人列出的日常参考是每天至少 7 小时；其他年龄段的建议有所不同。这是一般睡眠健康参考，不能直接拿来规定“昨晚少于 7 小时，今天一定不能练”，也不能用来保证增肌效果。',
+          '睡够时长，还要看质量：难以入睡、夜里反复醒来，或睡后仍明显困倦，都值得留意。经常有睡眠问题时，应寻求专业帮助，不靠增加训练量处理。',
+        ],
+      },
+      {
+        title: '加班晚归，先改一个小环节',
+        paragraphs: [
+          'CDC 建议保持相对固定的入睡和起床时间、睡前至少 30 分钟关闭电子设备，并避免下午或晚间摄入咖啡因。下面把这些一般建议转成本站编辑整理的工作日做法，不是失眠治疗方案。',
+        ],
+        list: [
+          '把结束工作、收拾器械和准备睡觉的时间算进日程，别只给正式训练留位置。',
+          '离开工作电脑后，试着留一段不用另一个屏幕填满的时间；先选一个做得到的调整。',
+          '回看下午和晚间的咖啡、茶或能量饮料。个人反应不同，不给所有人规定同一个最后饮用时刻。',
+          '这一晚时间已经很少，就减少训练安排或换到更合适的时间，保留睡眠机会。',
+        ],
+      },
+      {
         title: '给忙碌周准备一个低门槛版本',
         paragraphs: [
           '当一周特别忙，可以缩短单次练习，保留少量熟悉动作。偶尔少练一次，并不会抹掉之前的积累。别为“补课”把两次完整训练挤在一起。',
         ],
       },
     ],
-    sources: ['acsm', 'cdc'],
+    sources: ['acsm', 'cdc', 'sleep'],
   },
   {
     slug: 'lean-muscle-theory',
