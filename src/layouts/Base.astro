@@ -5,6 +5,7 @@ import { guides } from '../data/guides';
 import { pageNames, siteName, siteUrl, verification } from '../data/seo';
 interface Props {
   title?: string;
+  bodyClass?: string;
   description?: string;
   noindex?: boolean;
   schema?: Record<string, unknown>;
@@ -13,6 +14,7 @@ const {
   title = 'Awesome Boji｜薄肌指南',
   description = '从薄肌是什么，到今天怎么练。练薄肌提供有来源的入门指南、训练计划生成器、动作库和营养计算工具，陪你建立能坚持的训练习惯。',
   noindex = false,
+  bodyClass = '',
   schema,
 } = Astro.props;
 const pathname = Astro.url.pathname;
@@ -136,7 +138,7 @@ const searchItems = [
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, '\\u003c')} />
   </head>
-  <body>
+  <body class={bodyClass}>
     <a class="skip-link" href="#main">
       跳到正文
     </a>
