@@ -1,0 +1,45 @@
+---
+import type { Guide } from '../data/guides';
+import Icon from './Icon.astro';
+interface Props {
+  guide: Guide;
+  visual?: boolean;
+}
+const { guide, visual = false } = Astro.props;
+---
+
+<a
+  href={`/guides/${guide.slug}/`}
+  class:list={['guide-card', { 'with-visual': visual }]}
+  data-category={guide.category}
+  data-search={`${guide.title} ${guide.summary} ${guide.category}`}
+>
+  {visual && (
+    <div class:list={['card-visual', `theme-${guide.theme}`]} aria-hidden="true">
+      <span class="visual-label">LIANBOJI / NOTES</span>
+      <span class="visual-word">
+        {guide.category === '饮食恢复'
+          ? 'EAT.'
+          : guide.category === '训练方法'
+            ? 'MOVE.'
+            : guide.category === '理论观察'
+              ? 'THINK.'
+              : 'START.'}
+      </span>
+      <span class="visual-orbit"></span>
+      <span class="visual-number">{guide.number}</span>
+    </div>
+  )}
+  <div class="guide-card-body">
+    <div class="card-meta">
+      <span>{guide.category}</span>
+      <span>{guide.minutes} 分钟阅读</span>
+    </div>
+    <h3>{guide.title}</h3>
+    <p>{guide.summary}</p>
+    <div class="card-bottom">
+      <span>阅读指南</span>
+      <Icon name="diagonal" />
+    </div>
+  </div>
+</a>

@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import { sources } from '../data/guides';
+---
+
+<Base
+  title="关于练薄肌｜编辑原则、资料来源与项目说明"
+  description="练薄肌是独立中文训练入门项目。了解内容的编辑原则、计算公式来源、理论观察边界与公开反馈渠道。"
+>
+  <div class="wrap page-heading">
+    <div class="eyebrow">A SMALL PROJECT WITH INTENTION</div>
+    <h1>
+      让开始训练，
+      <br />
+      变得简单一点。
+    </h1>
+    <p>
+      练薄肌是一个独立的中文内容与工具网站。我们希望把对一个热词的好奇，转成能在生活里执行的小行动。
+    </p>
+  </div>
+  <article class="wrap prose-page">
+    <h2>我们做什么</h2>
+    <p>
+      提供薄肌入门路径、原创解释文章、一般训练模板、动作要点和计算工具。所有内容无需登录即可阅读使用；没有付费课、商品推荐佣金或训练效果保证。
+    </p>
+    <h2>怎样处理知识与观点</h2>
+    <ul>
+      <li>有数字和公式时保留来源，同时说明适用范围。</li>
+      <li>将机构指南、原作者观点与本站编辑建议分开标注。</li>
+      <li>不把“薄肌”当作统一的医学分类，不用极低体脂定义健康。</li>
+      <li>不编造专家审核、用户数量、成功案例或实时热度。</li>
+    </ul>
+    <h2>资料与公式来源</h2>
+    <p>
+      本站的常用背景资料如下。参考这些资料，不代表来源机构审核、赞助或认可本站；本站模板中的具体动作、组次和日程由编辑整理。
+    </p>
+    <ul>
+      {Object.values(sources).map((source) => (
+        <li>
+          <a href={source.url} target="_blank" rel="noopener noreferrer">
+            {source.title} ↗
+          </a>
+        </li>
+      ))}
+    </ul>
+    <h2>理论观察栏目的边界</h2>
+    <p>
+      我们会链接与话题相关的原始公开内容，帮助读者核对语境。收录不等于认可其中所有观点，也不据此确认概念首创。本站与邵艾伦
+      Alan、其他创作者及其团队无隶属、合作或授权关系。
+    </p>
+    <h2>反馈与修订</h2>
+    <p>
+      如果发现错误或希望补充来源，可通过{' '}
+      <a href="https://github.com/woodti/lianboji/issues" target="_blank" rel="noopener noreferrer">
+        GitHub Issues
+      </a>{' '}
+      提交反馈。仓库与问题区公开，请勿上传体检报告、联系方式或其他个人敏感信息。
+    </p>
+    <h2>网站版本</h2>
+    <p>
+      首版：2026 年 10 月 15
+      日。当前提供人工编辑的内容与即时计算，不包含自动抓取热榜或自动发布功能。
+    </p>
+  </article>
+</Base>

@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { guides, sources } from '../../data/guides';
+export function getStaticPaths() {
+  return guides.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
+}
+const { guide } = Astro.props;
+const index = guides.findIndex((g) => g.slug === guide.slug);
+const next = guides[(index + 1) % guides.length];
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: guide.title,
+  description: guide.summary,
+  datePublished: '2026-10-15',
+  dateModified: '2026-10-15',
+  inLanguage: 'zh-CN',
+  author: { '@type': 'Organization', name: '练薄肌编辑部', url: 'https://lianboji.com/about/' },
+  publisher: { '@type': 'Organization', name: '练薄肌', url: 'https://lianboji.com/' },
+  mainEntityOfPage: `https://lianboji.com/guides/${guide.slug}/`,
+  image: 'https://lianboji.com/images/og.png',
+};
+---
+
+<Base title={`${guide.title}｜练薄肌`} description={guide.summary} schema={schema}>
+  <div class="wrap">
+    <header class="article-header">
+      <nav class="breadcrumb" aria-label="面包屑">
+        <a href="/">首页</a>
+        <span>/</span>
+        <a href="/guides/">薄肌指南</a>
+        <span>/</span>
+        <span>{guide.category}</span>
+      </nav>
+      <div class="eyebrow">FIELD NOTES / {guide.number}</div>
+      <h1>{guide.title}</h1>
+      <p>{guide.summary}</p>
+      <div class="article-meta">
+        <span>{guide.category}</span>
+        <span>{guide.minutes} 分钟阅读</span>
+        <span>练薄肌编辑部</span>
+        <time datetime="2026-10-15">更新于 2026.10.15</time>
+      </div>
+    </header>
+    <div class="content-layout section-sm" style="padding-top:0">
+      <article>
+        <div class="takeaway">
+          <small>先记住这一句</small>
+          <p>{guide.takeaway}</p>
+        </div>
+        <div class="article-body">
+          {guide.sections.map((section, i) => (
+            <section id={`section-${i + 1}`}>
+              <h2>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+              {section.list && (
+                <ul>
+                  {section.list.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+        <div class="source-list" id="sources">
+          <h2>参考来源与阅读边界</h2>
+          {guide.sources.map((key) => (
+            <a href={sources[key].url} target="_blank" rel="noopener noreferrer">
+              {sources[key].title} ↗
+            </a>
+          ))}
+          <p>
+            以上来源支持相关背景知识；本站的具体训练安排、举例和解读由编辑整理，不是来源机构的个体训练处方。内容用于一般学习参考，不承诺体型变化或训练效果。
+          </p>
+        </div>
+        <a class="reading-next" href={`/guides/${next.slug}/`}>
+          <div>
+            <small>接着读</small>
+            <strong>{next.title}</strong>
+          </div>
+          <Icon name="arrow" size={24} />
+        </a>
+      </article>
+      <aside class="article-sidebar" aria-label="文章目录">
+        <h2>这篇读什么</h2>
+        {guide.sections.map((section, i) => (
+          <a href={`#section-${i + 1}`}>{section.title}</a>
+        ))}
+        <a href="#sources">参考来源</a>
+        <a class="button" href="/plan/">
+          把想法变成计划 <Icon size={16} />
+        </a>
+      </aside>
+    </div>
+  </div>
+</Base>

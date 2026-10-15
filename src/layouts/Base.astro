@@ -1,0 +1,279 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { guides } from '../data/guides';
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>;
+}
+const {
+  title = '练薄肌｜薄肌入门、训练计划与饮食指南',
+  description = '从薄肌是什么，到今天怎么练。练薄肌提供有来源的入门指南、训练计划生成器、动作库和营养计算工具，陪你建立能坚持的训练习惯。',
+  noindex = false,
+  schema,
+} = Astro.props;
+const pathname = Astro.url.pathname;
+const canonical = new URL(pathname, Astro.site);
+const navigation = [
+  { href: '/start/', label: '从这里开始' },
+  { href: '/guides/', label: '薄肌指南' },
+  { href: '/plan/', label: '训练计划' },
+  { href: '/tools/', label: '实用工具' },
+  { href: '/theory/', label: '理论观察' },
+];
+const searchItems = [
+  ...guides.map((g) => ({
+    title: g.title,
+    description: g.summary,
+    category: g.category,
+    url: `/guides/${g.slug}/`,
+  })),
+  {
+    title: '训练计划生成器',
+    description: '根据时间与器械条件选择入门课表',
+    category: '工具',
+    url: '/plan/',
+  },
+  {
+    title: '热量与蛋白质计算器',
+    description: '估算每日消耗与蛋白质参考范围',
+    category: '工具',
+    url: '/tools/',
+  },
+  {
+    title: '动作库',
+    description: '查看动作要点与降低难度的方法',
+    category: '动作',
+    url: '/movements/',
+  },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#193d33" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta property="og:type" content={schema ? 'article' : 'website'} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="练薄肌" />
+    <meta property="og:image" content={new URL('/images/og.png', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(
+        schema || {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: '练薄肌',
+          alternateName: 'LIANBOJI',
+          url: Astro.site?.href,
+          inLanguage: 'zh-CN',
+        },
+      ).replace(/</g, '\\u003c')}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      跳到正文
+    </a>
+    <header class="site-header">
+      <div class="header-inner wrap">
+        <a class="brand" href="/" aria-label="练薄肌首页">
+          <img src="/favicon.svg" width="34" height="34" alt="" />
+          <span>
+            练薄肌<small>LIANBOJI</small>
+          </span>
+        </a>
+        <nav class="desktop-nav" aria-label="主导航">
+          {navigation.map((item) => (
+            <a
+              class:list={[{ active: pathname.startsWith(item.href) }]}
+              href={item.href}
+              aria-current={pathname.startsWith(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <div class="header-actions">
+          <button class="icon-button search-open" aria-label="搜索文章和工具">
+            <Icon name="search" />
+            <kbd>/</kbd>
+          </button>
+          <a href="/plan/" class="button compact header-cta">
+            开始练 <Icon name="diagonal" size={15} />
+          </a>
+          <button
+            class="icon-button mobile-menu"
+            aria-label="打开导航"
+            aria-expanded="false"
+            aria-controls="mobile-nav"
+          >
+            <Icon name="menu" />
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="移动导航" hidden>
+        {navigation.map((item) => (
+          <a href={item.href} aria-current={pathname.startsWith(item.href) ? 'page' : undefined}>
+            {item.label}
+            <Icon />
+          </a>
+        ))}
+        <a href="/movements/">
+          动作库
+          <Icon />
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-top">
+        <div>
+          <a class="brand" href="/">
+            <img src="/favicon.svg" width="34" height="34" alt="" />
+            <span>
+              练薄肌<small>LIANBOJI</small>
+            </span>
+          </a>
+          <p>
+            练一点，好一点。
+            <br />
+            把身体的主动权，慢慢拿回来。
+          </p>
+        </div>
+        <div class="footer-links">
+          <div>
+            <span>开始行动</span>
+            <a href="/start/">入门路径</a>
+            <a href="/plan/">生成训练计划</a>
+            <a href="/movements/">浏览动作库</a>
+          </div>
+          <div>
+            <span>保持好奇</span>
+            <a href="/guides/">所有指南</a>
+            <a href="/theory/">薄肌理论观察</a>
+            <a href="/tools/">实用计算工具</a>
+          </div>
+          <div>
+            <span>关于本站</span>
+            <a href="/about/">编辑原则与来源</a>
+            <a href="/privacy/">隐私说明</a>
+            <a href="https://github.com/woodti/lianboji" target="_blank" rel="noopener noreferrer">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>© {new Date().getFullYear()} 练薄肌 · 独立内容项目</span>
+        <span>内容用于一般健康成年人学习参考，依自身情况调整。</span>
+        <a href="#main">回到顶部 ↑</a>
+      </div>
+    </footer>
+    <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title">
+      <div class="search-heading">
+        <h2 id="search-title">找到你的下一步</h2>
+        <button class="icon-button search-close" aria-label="关闭搜索">
+          <Icon name="close" />
+        </button>
+      </div>
+      <label class="search-field">
+        <Icon name="search" />
+        <span class="sr-only">搜索关键词</span>
+        <input
+          id="global-search"
+          type="search"
+          placeholder="试试“训练计划”“蛋白质”…"
+          autocomplete="off"
+        />
+      </label>
+      <div id="search-results" class="search-results" aria-live="polite"></div>
+      <p class="search-hint">搜索站内指南与工具 · 按 Esc 关闭</p>
+    </dialog>
+    <script define:vars={{ searchItems }}>
+      const dialog = document.querySelector('#search-dialog');
+      const input = document.querySelector('#global-search');
+      const results = document.querySelector('#search-results');
+      function renderSearch() {
+        const query = input.value.trim().toLowerCase();
+        const items = searchItems
+          .filter((x) => `${x.title} ${x.description} ${x.category}`.toLowerCase().includes(query))
+          .slice(0, 8);
+        results.replaceChildren();
+        if (!items.length) {
+          const p = document.createElement('p');
+          p.className = 'empty-state';
+          p.textContent = '暂时没有找到，换一个关键词试试。';
+          results.append(p);
+        }
+        items.forEach((item) => {
+          const a = document.createElement('a');
+          a.href = item.url;
+          const category = document.createElement('small');
+          category.textContent = item.category;
+          const title = document.createElement('strong');
+          title.textContent = item.title;
+          a.append(category, title);
+          results.append(a);
+        });
+      }
+      document.querySelectorAll('.search-open').forEach((button) =>
+        button.addEventListener('click', () => {
+          renderSearch();
+          dialog.showModal();
+          input.focus();
+        }),
+      );
+      document.querySelector('.search-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+          const r = dialog.getBoundingClientRect();
+          if (
+            event.clientX < r.left ||
+            event.clientX > r.right ||
+            event.clientY < r.top ||
+            event.clientY > r.bottom
+          )
+            dialog.close();
+        }
+      });
+      input.addEventListener('input', renderSearch);
+      document.addEventListener('keydown', (event) => {
+        if (
+          event.key === '/' &&
+          !dialog.open &&
+          !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) &&
+          !document.activeElement.isContentEditable
+        ) {
+          event.preventDefault();
+          renderSearch();
+          dialog.showModal();
+          input.focus();
+        }
+      });
+      const menu = document.querySelector('.mobile-menu');
+      const mobile = document.querySelector('#mobile-nav');
+      menu.addEventListener('click', () => {
+        const expanded = menu.getAttribute('aria-expanded') === 'true';
+        menu.setAttribute('aria-expanded', String(!expanded));
+        menu.setAttribute('aria-label', expanded ? '打开导航' : '关闭导航');
+        mobile.hidden = expanded;
+      });
+    </script>
+  </body>
+</html>

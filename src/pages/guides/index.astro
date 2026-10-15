@@ -1,0 +1,70 @@
+---
+import Base from '../../layouts/Base.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import Icon from '../../components/Icon.astro';
+import { guides, categories } from '../../data/guides';
+---
+
+<Base
+  title="薄肌指南｜入门、训练方法、饮食恢复与理论解读｜练薄肌"
+  description="从薄肌是什么到渐进超负荷、蛋白质与恢复。浏览练薄肌的原创入门指南，按分类与关键词查找，每篇保留参考来源。"
+>
+  <div class="wrap page-heading">
+    <div class="eyebrow">THE FIELD GUIDE</div>
+    <h1>先看懂，再练好。</h1>
+    <p>把复杂的知识，变成用得上的下一步。按你的问题，挑一篇开始。</p>
+  </div>
+  <section class="wrap section-sm" style="padding-top:0">
+    <div class="filter-bar">
+      <div class="filter-tabs" aria-label="指南分类">
+        {categories.map((category, index) => (
+          <button class="filter-button" data-filter={category} aria-pressed={index === 0}>
+            {category}
+          </button>
+        ))}
+      </div>
+      <label class="inline-search">
+        <Icon name="search" size={17} />
+        <span class="sr-only">搜索指南</span>
+        <input id="guide-search" type="search" placeholder="搜索你想了解的内容" />
+      </label>
+    </div>
+    <p id="filter-count" class="sr-only" aria-live="polite"></p>
+    <div class="guide-grid">
+      {guides.map((guide) => (
+        <GuideCard guide={guide} visual />
+      ))}
+    </div>
+    <p id="no-guides" class="empty-state" hidden>
+      没有找到相关指南，试试其他关键词或分类。
+    </p>
+  </section>
+  <script>
+    let category = '全部';
+    const input = document.querySelector<HTMLInputElement>('#guide-search')!;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.guide-card'));
+    function filter() {
+      let visible = 0;
+      const query = input.value.trim().toLowerCase();
+      cards.forEach((card) => {
+        const match =
+          (category === '全部' || card.dataset.category === category) &&
+          (card.dataset.search || '').toLowerCase().includes(query);
+        card.hidden = !match;
+        if (match) visible++;
+      });
+      document.querySelector<HTMLElement>('#no-guides')!.hidden = visible > 0;
+      document.querySelector('#filter-count')!.textContent = `找到 ${visible} 篇指南`;
+    }
+    document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) =>
+      button.addEventListener('click', () => {
+        category = button.dataset.filter!;
+        document
+          .querySelectorAll('[data-filter]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        filter();
+      }),
+    );
+    input.addEventListener('input', filter);
+  </script>
+</Base>

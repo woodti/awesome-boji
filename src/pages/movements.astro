@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { movements } from '../data/movements';
+const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
+---
+
+<Base
+  title="薄肌入门动作库｜动作要点与简单变式｜练薄肌"
+  description="浏览徒手、弹力带、哑铃与健身房入门动作。查看深蹲、俯卧撑、划船等动作的练习要点与降低难度的方法。"
+>
+  <div class="wrap page-heading">
+    <nav class="breadcrumb" aria-label="面包屑">
+      <a href="/">首页</a>
+      <span>/</span>
+      <span>动作库</span>
+    </nav>
+    <div class="eyebrow">THE MOVEMENT LIBRARY</div>
+    <h1>先把动作，练得从容。</h1>
+    <p>从基础动作模式开始。点开动作查看要点，再按自己的能力降低难度。</p>
+  </div>
+  <section class="wrap section-sm" style="padding-top:0">
+    <div class="filter-bar">
+      <div class="filter-tabs" aria-label="动作分类">
+        {groups.map((group, index) => (
+          <button class="filter-button" data-group={group} aria-pressed={index === 0}>
+            {group}
+          </button>
+        ))}
+      </div>
+      <label class="inline-search">
+        <Icon name="search" size={17} />
+        <span class="sr-only">搜索动作或器械</span>
+        <input id="movement-search" type="search" placeholder="搜索动作、器械" />
+      </label>
+    </div>
+    <div class="movement-grid">
+      {movements.map((movement, i) => (
+        <article
+          class="movement-card"
+          id={movement.id}
+          data-group={movement.group}
+          data-search={`${movement.name} ${movement.equipment} ${movement.group}`}
+        >
+          <div class="movement-art" aria-hidden="true">
+            <span>{movement.en}</span>
+            <Icon name={movement.group === '核心' ? 'sun' : 'barbell'} size={55} />
+          </div>
+          <div class="movement-body">
+            <div class="card-meta">
+              <span>
+                {movement.group} / {movement.equipment}
+              </span>
+              <span>{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <h2>{movement.name}</h2>
+            <p>{movement.cue}</p>
+            <details>
+              <summary>查看动作要点</summary>
+              <ol>
+                {movement.steps.map((step) => (
+                  <li>{step}</li>
+                ))}
+              </ol>
+              <p class="easier">
+                <strong>降低难度：</strong>
+                {movement.easier}
+              </p>
+            </details>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p id="no-movements" class="empty-state" aria-live="polite" hidden>
+      没有找到相关动作，试试其他分类或器械名称。
+    </p>
+    <div class="notice" style="margin-top:30px">
+      文字要点用于复习动作，不能代替现场教学。选择轻阻力与可控幅度，出现关节锐痛或明显不适时停止；首次使用健身房器械，请确认安全装置。
+    </div>
+  </section>
+  <script>
+    let group = '全部';
+    const search = document.querySelector<HTMLInputElement>('#movement-search')!;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.movement-card'));
+    function filter() {
+      let count = 0;
+      cards.forEach((card) => {
+        const show =
+          (group === '全部' || card.dataset.group === group) &&
+          (card.dataset.search || '').toLowerCase().includes(search.value.trim().toLowerCase());
+        card.hidden = !show;
+        if (show) count++;
+      });
+      document.querySelector<HTMLElement>('#no-movements')!.hidden = count > 0;
+    }
+    document.querySelectorAll<HTMLButtonElement>('[data-group]').forEach((button) =>
+      button.addEventListener('click', () => {
+        group = button.dataset.group!;
+        document
+          .querySelectorAll('[data-group]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        filter();
+      }),
+    );
+    search.addEventListener('input', filter);
+    if (location.hash) {
+      const card = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      const details = card?.querySelector('details');
+      if (details) details.open = true;
+    }
+  </script>
+</Base>

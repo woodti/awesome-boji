@@ -1,0 +1,304 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base
+  title="薄肌实用工具｜每日热量、蛋白质计算器与组间计时｜练薄肌"
+  description="使用每日能量消耗估算、蛋白质参考量计算器和组间休息计时器。公开公式与来源，输入只在当前浏览器页面计算。"
+>
+  <div class="wrap page-heading">
+    <div class="eyebrow">A LITTLE MORE CLARITY</div>
+    <h1>让数字，变得好理解。</h1>
+    <p>估算是一份起点，不是一张处方。先了解自己的大致范围，再结合实际训练和生活调整。</p>
+  </div>
+  <section class="wrap section-sm" style="padding-top:0">
+    <div class="tools-layout">
+      <section class="panel" aria-labelledby="energy-title">
+        <span class="eyebrow">01 / ENERGY</span>
+        <h2 id="energy-title">每日热量消耗估算</h2>
+        <p class="subtitle">Mifflin–St Jeor 公式 × 活动系数</p>
+        <form id="energy-form">
+          <div class="field-grid">
+            <label class="field">
+              体重 / kg
+              <input
+                name="weight"
+                type="number"
+                min="30"
+                max="250"
+                step="0.1"
+                placeholder="例如 70"
+                required
+                inputmode="decimal"
+              />
+            </label>
+            <label class="field">
+              身高 / cm
+              <input
+                name="height"
+                type="number"
+                min="130"
+                max="220"
+                step="0.1"
+                placeholder="例如 175"
+                required
+                inputmode="decimal"
+              />
+            </label>
+            <label class="field">
+              年龄 / 岁
+              <input
+                name="age"
+                type="number"
+                min="18"
+                max="80"
+                step="1"
+                placeholder="例如 30"
+                required
+                inputmode="numeric"
+              />
+            </label>
+            <label class="field">
+              公式使用的性别参数
+              <select name="sex">
+                <option value="male">男性参数</option>
+                <option value="female">女性参数</option>
+              </select>
+            </label>
+            <label class="field full">
+              日常活动水平
+              <select name="activity">
+                <option value="1.2">久坐为主，很少运动 × 1.20</option>
+                <option value="1.375">轻度活动，每周少量运动 × 1.375</option>
+                <option value="1.55">中等活动，每周规律运动 × 1.55</option>
+                <option value="1.725">较高活动，日常活动与训练较多 × 1.725</option>
+              </select>
+              <small>综合工作、走动和运动选择，不仅按健身房出勤次数。</small>
+            </label>
+          </div>
+          <button class="button form-action" type="submit">
+            计算我的参考值
+            <Icon name="arrow" size={18} />
+          </button>
+          <p id="energy-error" class="field-error" role="alert" hidden></p>
+        </form>
+        <div id="energy-result" class="calculation-result" aria-live="polite" hidden>
+          <span class="label">估算每日总消耗 / TDEE</span>
+          <div class="result-number">
+            <span id="total-result"></span>
+            <small>kcal / 天</small>
+          </div>
+          <div class="result-breakdown">
+            <span>静息能量消耗 / REE</span>
+            <strong>
+              <span id="resting-result"></span> kcal / 天
+            </strong>
+          </div>
+        </div>
+        <p id="energy-stale" class="result-explainer" hidden>
+          参数已修改，请重新计算。
+        </p>
+        <p class="result-explainer">
+          适用于一般健康成年人。公式采用原研究的男 /
+          女参数，无法覆盖所有身体情况。活动系数是常见粗略估算，结果不是建议摄入量。
+        </p>
+        <a
+          class="text-link"
+          style="margin-top:15px;font-size:11px"
+          href="/guides/energy-estimation/"
+        >
+          查看公式、来源与使用边界
+          <Icon size={15} />
+        </a>
+      </section>
+      <div class="tools-side">
+        <section class="panel" id="protein" aria-labelledby="protein-title">
+          <span class="eyebrow">02 / PROTEIN</span>
+          <h2 id="protein-title">每日蛋白质参考</h2>
+          <p class="subtitle">健康成年运动者：1.4–2.0 g / kg / 天</p>
+          <form id="protein-form">
+            <label class="field">
+              体重 / kg
+              <input
+                name="weight"
+                type="number"
+                min="30"
+                max="250"
+                step="0.1"
+                placeholder="例如 70"
+                required
+                inputmode="decimal"
+              />
+            </label>
+            <button class="button secondary form-action" type="submit">
+              计算参考范围
+              <Icon size={18} />
+            </button>
+            <p id="protein-error" class="field-error" role="alert" hidden></p>
+          </form>
+          <div id="protein-result" class="protein-result" aria-live="polite" hidden>
+            <span>每日参考范围</span>
+            <strong>
+              <span id="protein-low"></span>–<span id="protein-high"></span>
+              <small> g</small>
+            </strong>
+          </div>
+          <p class="result-explainer">
+            这是食物中的蛋白质含量，不是肉或蛋白粉的重量。不适用于需要限制蛋白质摄入的人群。
+          </p>
+          <a
+            class="text-link"
+            href="/guides/protein-basics/"
+            style="margin-top:13px;font-size:11px"
+          >
+            如何放进正常三餐
+            <Icon size={15} />
+          </a>
+        </section>
+        <section class="panel" id="rest-timer" aria-labelledby="timer-title">
+          <span class="eyebrow">03 / REST</span>
+          <h2 id="timer-title">组间休息计时</h2>
+          <p class="subtitle">按自己的恢复情况休息，不用赶下一组。</p>
+          <div class="timer-options" aria-label="选择休息时长">
+            {[60, 90, 120].map((seconds) => (
+              <button class="filter-button" data-seconds={seconds} aria-pressed={seconds === 90}>
+                {seconds} 秒
+              </button>
+            ))}
+          </div>
+          <div class="timer-display" id="timer-display" role="timer" aria-label="剩余休息时间">
+            01:30
+          </div>
+          <div class="timer-controls">
+            <button class="button" id="timer-toggle">
+              开始计时
+            </button>
+            <button class="button secondary" id="timer-reset">
+              重置
+            </button>
+          </div>
+          <p id="timer-status" class="timer-status" role="status">
+            准备好后开始。
+          </p>
+        </section>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:30px">
+      计算在当前页面完成，不上传或保存身体数据。未成年人、孕哺期、已有疾病或康复期人群，请使用适合自身情况的专业指导。
+    </div>
+  </section>
+  <script>
+    import { calculateEnergy, calculateProtein, formatTimer } from '../lib/fitness.mjs';
+    const energy = document.querySelector<HTMLFormElement>('#energy-form')!;
+    const result = document.querySelector<HTMLElement>('#energy-result')!;
+    const energyError = document.querySelector<HTMLElement>('#energy-error')!;
+    energy.addEventListener('submit', (event) => {
+      event.preventDefault();
+      try {
+        const data = Object.fromEntries(new FormData(energy));
+        const values = calculateEnergy({
+          weight: data.weight,
+          height: data.height,
+          age: data.age,
+          sex: data.sex,
+          activity: data.activity,
+        });
+        document.querySelector('#total-result')!.textContent = String(values.total);
+        document.querySelector('#resting-result')!.textContent = String(values.resting);
+        result.hidden = false;
+        energyError.hidden = true;
+        document.querySelector<HTMLElement>('#energy-stale')!.hidden = true;
+      } catch (error) {
+        energyError.textContent = error instanceof Error ? error.message : '请检查输入';
+        energyError.hidden = false;
+        result.hidden = true;
+      }
+    });
+    energy.addEventListener('input', () => {
+      if (!result.hidden) {
+        result.hidden = true;
+        document.querySelector<HTMLElement>('#energy-stale')!.hidden = false;
+      }
+    });
+    const protein = document.querySelector<HTMLFormElement>('#protein-form')!;
+    const proteinResult = document.querySelector<HTMLElement>('#protein-result')!;
+    const proteinError = document.querySelector<HTMLElement>('#protein-error')!;
+    protein.addEventListener('submit', (event) => {
+      event.preventDefault();
+      try {
+        const values = calculateProtein(new FormData(protein).get('weight'));
+        document.querySelector('#protein-low')!.textContent = String(values.low);
+        document.querySelector('#protein-high')!.textContent = String(values.high);
+        proteinResult.hidden = false;
+        proteinError.hidden = true;
+      } catch (error) {
+        proteinError.textContent = error instanceof Error ? error.message : '请检查输入';
+        proteinError.hidden = false;
+        proteinResult.hidden = true;
+      }
+    });
+    protein.addEventListener('input', () => {
+      proteinResult.hidden = true;
+    });
+    let duration = 90,
+      remaining = 90,
+      end = 0,
+      interval: ReturnType<typeof setInterval> | undefined;
+    let running = false;
+    const display = document.querySelector('#timer-display')!;
+    const toggle = document.querySelector<HTMLButtonElement>('#timer-toggle')!;
+    const status = document.querySelector('#timer-status')!;
+    function stop() {
+      if (interval !== undefined) clearInterval(interval);
+      interval = undefined;
+      running = false;
+    }
+    function update() {
+      remaining = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      display.textContent = formatTimer(remaining);
+      if (remaining === 0) {
+        stop();
+        toggle.textContent = '再来一轮';
+        status.textContent = '休息时间结束。确认恢复好了，再开始下一组。';
+      }
+    }
+    toggle.addEventListener('click', () => {
+      if (running) {
+        update();
+        stop();
+        toggle.textContent = remaining === 0 ? '再来一轮' : '继续计时';
+        status.textContent = remaining === 0 ? '休息时间结束。' : '已暂停。';
+      } else {
+        if (remaining === 0) remaining = duration;
+        end = Date.now() + remaining * 1000;
+        running = true;
+        toggle.textContent = '暂停';
+        status.textContent = '休息中，慢慢恢复呼吸。';
+        interval = setInterval(update, 200);
+        update();
+      }
+    });
+    function reset() {
+      stop();
+      remaining = duration;
+      display.textContent = formatTimer(remaining);
+      toggle.textContent = '开始计时';
+      status.textContent = '准备好后开始。';
+    }
+    document.querySelector('#timer-reset')!.addEventListener('click', reset);
+    document.querySelectorAll<HTMLButtonElement>('[data-seconds]').forEach((button) =>
+      button.addEventListener('click', () => {
+        duration = Number(button.dataset.seconds);
+        document
+          .querySelectorAll('[data-seconds]')
+          .forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        reset();
+      }),
+    );
+    document.addEventListener('visibilitychange', () => {
+      if (running) update();
+    });
+    window.addEventListener('pagehide', stop);
+  </script>
+</Base>

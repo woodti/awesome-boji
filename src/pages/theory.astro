@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import GuideCard from '../components/GuideCard.astro';
+import { guides, sources } from '../data/guides';
+---
+
+<Base
+  title="薄肌理论是什么？原始内容、观点解读与训练入门｜练薄肌"
+  description="独立梳理薄肌理论相关公开内容，链接原始来源，区分网络观点与训练知识。从热点出发，找到适合自己的行动。"
+>
+  <div class="wrap page-heading">
+    <div class="eyebrow">BEYOND THE BUZZWORD</div>
+    <h1>
+      关注热词，
+      <br />
+      也保持自己的判断。
+    </h1>
+    <p>这里收录可核对的公开内容与本站解读。看懂“薄肌理论”在说什么，再决定哪些值得带进生活。</p>
+  </div>
+  <section class="wrap section-sm" style="padding-top:0">
+    <div class="theory-banner">
+      <div>
+        <div class="eyebrow" style="color:var(--lime)">
+          TOPIC / 薄肌理论
+        </div>
+        <h2>
+          一个流行的词，
+          <br />
+          可以是开始行动的契机。
+        </h2>
+        <p>体型审美、个人经验与训练知识，分别理解。别让讨论的热度，替代你自己的判断。</p>
+        <a class="button lime" href="/guides/lean-muscle-theory/" style="margin-top:26px">
+          阅读薄肌理论解读 <Icon size={18} />
+        </a>
+      </div>
+      <div class="theory-poster" aria-hidden="true">
+        <span>
+          THINK.
+          <br />
+          THEN MOVE.<small>先思考，再行动。</small>
+        </span>
+      </div>
+    </div>
+  </section>
+  <section class="wrap section-sm">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">SOURCE DESK</div>
+        <h2>从原始内容开始看。</h2>
+      </div>
+      <span class="tag">人工整理 · 非实时热榜</span>
+    </div>
+    <a class="observation-row" href={sources.alan.url} target="_blank" rel="noopener noreferrer">
+      <time datetime="2026-10-15">收录 2026.10.15</time>
+      <div>
+        <h3>薄肌理论：中国互联网第四大理论？</h3>
+        <p>
+          来源：邵艾伦 Alan /
+          哔哩哔哩。查看发布者的公开原视频，理解完整语境。本站不据此认定概念首创，也不代表作者背书。
+        </p>
+      </div>
+      <Icon name="diagonal" size={23} />
+    </a>
+    <a class="observation-row" href="/guides/lean-muscle-theory/">
+      <time datetime="2026-10-15">编辑 2026.10.15</time>
+      <div>
+        <h3>薄肌理论是什么？热梗、观点与训练分开看</h3>
+        <p>本站原创解读：将体型描述、生活观点与训练建议分开判断，给热词保留证据边界。</p>
+      </div>
+      <Icon size={23} />
+    </a>
+  </section>
+  <section class="wrap section-sm">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">OUR EDITORIAL LENS</div>
+        <h2>我们怎样跟进一个话题。</h2>
+      </div>
+    </div>
+    <div class="editorial-grid">
+      <div>
+        <span class="english">01 / TRACE THE SOURCE</span>
+        <h3>回到来源</h3>
+        <p>优先保留原作者入口。引用作品不等于确认首创，也不把二次传播当成原话。</p>
+      </div>
+      <div>
+        <span class="english">02 / KEEP THE CONTEXT</span>
+        <h3>分清表达</h3>
+        <p>个人体验、生活观点和科学结论各有边界，不用流行程度证明训练效果。</p>
+      </div>
+      <div>
+        <span class="english">03 / MAKE IT USEFUL</span>
+        <h3>落到行动</h3>
+        <p>关注能持续执行的小改变。知识最终要服务你的生活，而不是增加身材压力。</p>
+      </div>
+    </div>
+  </section>
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>想开始练，从这里接着看。</h2>
+      <a class="text-link" href="/guides/">
+        所有指南
+        <Icon size={17} />
+      </a>
+    </div>
+    <div class="guide-grid">
+      {guides
+        .filter((g) =>
+          ['what-is-lean-muscle', 'beginner-first-week', 'progressive-overload'].includes(g.slug),
+        )
+        .map((guide) => (
+          <GuideCard guide={guide} />
+        ))}
+    </div>
+  </section>
+</Base>
