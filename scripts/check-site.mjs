@@ -11,6 +11,19 @@ function walk(path) {
   });
 }
 const htmlFiles = walk(root).filter((path) => path.endsWith('.html'));
+// Body inputs must stay local even when the calculator bundle never runs.
+const toolsHtml = readFileSync(join(root, 'tools/index.html'), 'utf8');
+assert.match(
+  toolsHtml,
+  /<meta[^>]*http-equiv="Content-Security-Policy"[^>]*content="form-action 'none'"/,
+  'Calculators must block native form submission',
+);
+for (const id of ['energy-form', 'protein-form']) {
+  const form = toolsHtml.match(new RegExp(`<form[^>]*id="${id}"[^>]*>(.*?)</form>`, 's'))?.[1];
+  assert.ok(form, `Missing calculator: ${id}`);
+  assert.match(form, /^\s*<fieldset\s+[^>]*\bdisabled\b/, `${id} must start disabled`);
+  assert.match(form, /<\/fieldset>\s*$/, `${id} controls must remain inside the safety gate`);
+}
 const titles = new Set();
 const errors = [];
 for (const file of htmlFiles) {

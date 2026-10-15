@@ -12,75 +12,85 @@ import Icon from '../components/Icon.astro';
     <p>估算是一份起点，不是一张处方。先了解自己的大致范围，再结合实际训练和生活调整。</p>
   </div>
   <section class="wrap section-sm" style="padding-top:0">
+    <noscript>
+      <p class="notice">
+        计算器需要 JavaScript 在本页计算。当前无法使用输入与计算；你仍可以阅读下方的公式和饮食指南。
+      </p>
+    </noscript>
     <div class="tools-layout">
       <section class="panel" aria-labelledby="energy-title">
         <h2 id="energy-title">每日热量消耗估算</h2>
         <p class="subtitle">Mifflin–St Jeor 公式 × 活动系数</p>
-        <form id="energy-form">
-          <div class="field-grid">
-            <label class="field">
-              体重 / kg
-              <input
-                name="weight"
-                type="number"
-                min="30"
-                max="250"
-                step="0.1"
-                placeholder="例如 70"
-                required
-                inputmode="decimal"
-              />
-            </label>
-            <label class="field">
-              身高 / cm
-              <input
-                name="height"
-                type="number"
-                min="130"
-                max="220"
-                step="0.1"
-                placeholder="例如 175"
-                required
-                inputmode="decimal"
-              />
-            </label>
-            <label class="field">
-              年龄 / 岁
-              <input
-                name="age"
-                type="number"
-                min="18"
-                max="80"
-                step="1"
-                placeholder="例如 30"
-                required
-                inputmode="numeric"
-              />
-            </label>
-            <label class="field">
-              公式使用的性别参数
-              <select name="sex">
-                <option value="male">男性参数</option>
-                <option value="female">女性参数</option>
-              </select>
-            </label>
-            <label class="field full">
-              日常活动水平
-              <select name="activity">
-                <option value="1.2">久坐为主，很少运动 × 1.20</option>
-                <option value="1.375">轻度活动，每周少量运动 × 1.375</option>
-                <option value="1.55">中等活动，每周规律运动 × 1.55</option>
-                <option value="1.725">较高活动，日常活动与训练较多 × 1.725</option>
-              </select>
-              <small>综合工作、走动和运动选择，不仅按健身房出勤次数。</small>
-            </label>
-          </div>
-          <button class="button form-action" type="submit">
-            计算我的参考值
-            <Icon name="arrow" size={18} />
-          </button>
-          <p id="energy-error" class="field-error" role="alert" hidden></p>
+        <form id="energy-form" autocomplete="off">
+          <fieldset disabled class="local-calculator" aria-labelledby="energy-title">
+            <div class="field-grid">
+              <label class="field">
+                体重 / kg
+                <input
+                  name="weight"
+                  type="number"
+                  min="30"
+                  max="250"
+                  step="0.1"
+                  placeholder="例如 70"
+                  required
+                  inputmode="decimal"
+                />
+              </label>
+              <label class="field">
+                身高 / cm
+                <input
+                  name="height"
+                  type="number"
+                  min="130"
+                  max="220"
+                  step="0.1"
+                  placeholder="例如 175"
+                  required
+                  inputmode="decimal"
+                />
+              </label>
+              <label class="field">
+                年龄 / 岁
+                <input
+                  name="age"
+                  type="number"
+                  min="18"
+                  max="80"
+                  step="1"
+                  placeholder="例如 30"
+                  required
+                  inputmode="numeric"
+                />
+              </label>
+              <label class="field">
+                公式使用的性别参数
+                <select name="sex">
+                  <option value="male">男性参数</option>
+                  <option value="female">女性参数</option>
+                </select>
+              </label>
+              <label class="field full">
+                日常活动水平
+                <select name="activity">
+                  <option value="1.2">久坐为主，很少运动 × 1.20</option>
+                  <option value="1.375">轻度活动，每周少量运动 × 1.375</option>
+                  <option value="1.55">中等活动，每周规律运动 × 1.55</option>
+                  <option value="1.725">较高活动，日常活动与训练较多 × 1.725</option>
+                </select>
+                <small>综合工作、走动和运动选择，不仅按健身房出勤次数。</small>
+              </label>
+            </div>
+            <button class="button form-action" type="submit">
+              计算我的参考值
+              <Icon name="arrow" size={18} />
+            </button>
+            <p id="energy-error" class="field-error" role="alert" hidden></p>
+          </fieldset>
         </form>
+        <p id="energy-loading" class="result-explainer" role="status">
+          本地计算器尚未就绪，暂不能输入。若一直未恢复，请刷新页面重试。
+        </p>
         <div id="energy-result" class="calculation-result" aria-live="polite" hidden>
           <span class="label">估算每日总消耗 / TDEE</span>
           <div class="result-number">
@@ -114,26 +124,31 @@ import Icon from '../components/Icon.astro';
         <section class="panel" id="protein" aria-labelledby="protein-title">
           <h2 id="protein-title">每日蛋白质参考</h2>
           <p class="subtitle">健康成年运动者：1.4–2.0 g / kg / 天</p>
-          <form id="protein-form">
-            <label class="field">
-              体重 / kg
-              <input
-                name="weight"
-                type="number"
-                min="30"
-                max="250"
-                step="0.1"
-                placeholder="例如 70"
-                required
-                inputmode="decimal"
-              />
-            </label>
-            <button class="button secondary form-action" type="submit">
-              计算参考范围
-              <Icon size={18} />
-            </button>
-            <p id="protein-error" class="field-error" role="alert" hidden></p>
+          <form id="protein-form" autocomplete="off">
+            <fieldset disabled class="local-calculator" aria-labelledby="protein-title">
+              <label class="field">
+                体重 / kg
+                <input
+                  name="weight"
+                  type="number"
+                  min="30"
+                  max="250"
+                  step="0.1"
+                  placeholder="例如 70"
+                  required
+                  inputmode="decimal"
+                />
+              </label>
+              <button class="button secondary form-action" type="submit">
+                计算参考范围
+                <Icon size={18} />
+              </button>
+              <p id="protein-error" class="field-error" role="alert" hidden></p>
+            </fieldset>
           </form>
+          <p id="protein-loading" class="result-explainer" role="status">
+            本地计算器尚未就绪，暂不能输入。若一直未恢复，请刷新页面重试。
+          </p>
           <div id="protein-result" class="protein-result" aria-live="polite" hidden>
             <span>每日参考范围</span>
             <strong>
@@ -217,6 +232,9 @@ import Icon from '../components/Icon.astro';
         document.querySelector<HTMLElement>('#energy-stale')!.hidden = false;
       }
     });
+    // Enable inputs only after the local submit handler is attached.
+    energy.querySelector<HTMLFieldSetElement>('fieldset')!.disabled = false;
+    document.querySelector<HTMLElement>('#energy-loading')!.hidden = true;
     const protein = document.querySelector<HTMLFormElement>('#protein-form')!;
     const proteinResult = document.querySelector<HTMLElement>('#protein-result')!;
     const proteinError = document.querySelector<HTMLElement>('#protein-error')!;
@@ -237,6 +255,8 @@ import Icon from '../components/Icon.astro';
     protein.addEventListener('input', () => {
       proteinResult.hidden = true;
     });
+    protein.querySelector<HTMLFieldSetElement>('fieldset')!.disabled = false;
+    document.querySelector<HTMLElement>('#protein-loading')!.hidden = true;
     let duration = 90,
       remaining = 90,
       end = 0,
@@ -298,3 +318,12 @@ import Icon from '../components/Icon.astro';
     window.addEventListener('pagehide', stop);
   </script>
 </Base>
+
+<style>
+  .local-calculator {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+</style>
