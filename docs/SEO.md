@@ -4,7 +4,7 @@
 
 ## 当前完成与证据边界
 
-网站提供预渲染中文正文，不依赖 JavaScript 才能读文章。27 个可收录页面有独立标题、描述、HTTPS canonical、WebPage / WebSite / Organization 结构化数据；内页增加 BreadcrumbList，16 篇指南另有 Article、编辑来源与文章间链接。404 使用 noindex，站点地图排除错误页和参数变体。
+网站提供预渲染中文正文，不依赖 JavaScript 才能读文章。28 个可收录页面有独立标题、描述、HTTPS canonical、WebPage / WebSite / Organization 结构化数据；内页增加 BreadcrumbList，17 篇指南另有 Article、编辑来源与文章间链接。404 使用 noindex，站点地图排除错误页和参数变体。
 
 - XML 地图：https://lianboji.com/sitemap.xml
 - 逐行 URL 清单：https://lianboji.com/urls.txt

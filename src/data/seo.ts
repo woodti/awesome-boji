@@ -32,7 +32,7 @@ export const indexablePages = [
   ...guides.map((guide) => ({
     path: `/guides/${guide.slug}/`,
     name: guide.title,
-    modified: guide.updatedAt || publishedAt,
+    modified: guide.updatedAt || guide.publishedAt || publishedAt,
   })),
 ];
 
