@@ -38,4 +38,4 @@ export const indexablePages = [
 
 // Verification codes are public page metadata, not account passwords or API tokens.
 // Paste the exact HTML meta content supplied by the platform, then deploy.
-export const verification = { google: '', baidu: '' };
+export const verification = { google: '', baidu: 'codeva-oo8TFDhivg' };
