@@ -92,20 +92,38 @@ const groups = ['全部', '下肢', '上肢推', '上肢拉', '核心'];
       });
       document.querySelector<HTMLElement>('#no-movements')!.hidden = count > 0;
     }
-    document.querySelectorAll<HTMLButtonElement>('[data-group]').forEach((button) =>
+    document.querySelectorAll<HTMLButtonElement>('button[data-group]').forEach((button) =>
       button.addEventListener('click', () => {
         group = button.dataset.group!;
         document
-          .querySelectorAll('[data-group]')
+          .querySelectorAll('button[data-group]')
           .forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
         filter();
       }),
     );
     search.addEventListener('input', filter);
-    if (location.hash) {
-      const card = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-      const details = card?.querySelector('details');
+    function openLinkedMovement() {
+      let id;
+      try {
+        id = decodeURIComponent(location.hash.slice(1));
+      } catch {
+        return;
+      }
+      const card = cards.find((item) => item.id === id);
+      if (!card) return;
+      group = '全部';
+      search.value = '';
+      document
+        .querySelectorAll<HTMLButtonElement>('button[data-group]')
+        .forEach((button) =>
+          button.setAttribute('aria-pressed', String(button.dataset.group === group)),
+        );
+      filter();
+      const details = card.querySelector('details');
       if (details) details.open = true;
+      card.scrollIntoView({ block: 'start' });
     }
+    openLinkedMovement();
+    addEventListener('hashchange', openLinkedMovement);
   </script>
 </Base>

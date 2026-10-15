@@ -136,6 +136,9 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
             <Icon name="download" size={17} />
             下载文字课表
           </button>
+          <button id="copy-plan" class="button secondary">
+            复制课表链接
+          </button>
           <button id="print-plan" class="button secondary">
             打印计划
           </button>
@@ -143,8 +146,9 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
             组间计时 <Icon name="clock" size={17} />
           </a>
         </div>
+        <p id="plan-share-status" class="result-explainer" role="status" hidden></p>
         <p class="result-explainer">
-          模板由Awesome Boji
+          模板由 Awesome Boji
           编辑整理。训练日可以整体平移，保留恢复间隔。时长包含准备和休息的粗略预留，实际用时因练习节奏而异。参考：
           <a
             href="https://acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines/"
@@ -184,6 +188,19 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
       el.className = className;
       if (text !== undefined) el.textContent = text;
       return el;
+    }
+    const exportButtons = ['download-plan', 'print-plan', 'copy-plan'].map(
+      (id) => document.getElementById(id) as HTMLButtonElement,
+    );
+    const shareStatus = document.querySelector<HTMLElement>('#plan-share-status')!;
+    function planUrl() {
+      const url = new URL('/plan/', location.origin);
+      url.search = new URLSearchParams({
+        days: String(plan.days),
+        equipment: plan.equipment,
+        duration: String(plan.duration),
+      }).toString();
+      return url;
     }
     function render() {
       description.textContent = `每周 ${plan.days} 次 · ${equipmentLabels[plan.equipment]} · 每次约 ${plan.duration} 分钟`;
@@ -229,11 +246,16 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
           ? '三次训练按 A / B / A 交替，下一周从 B 开始。新手也可以先用两次版本，观察恢复后再增加频率。'
           : '两次训练之间安排恢复；第二周可交换 A / B 顺序。动作稳定、恢复正常后，再小幅增加次数或阻力。';
       pending.hidden = true;
+      exportButtons.forEach((button) => (button.disabled = false));
+      shareStatus.hidden = true;
+      history.replaceState(null, '', planUrl());
       document.querySelector('#plan-announcement')!.textContent =
         `已生成${description.textContent}的入门课表。`;
     }
     form.addEventListener('change', () => {
       pending.hidden = false;
+      exportButtons.forEach((button) => (button.disabled = true));
+      shareStatus.hidden = true;
     });
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -268,10 +290,20 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
         /* Invalid share options keep the readable default plan. */
       }
     }
+    document.querySelector('#copy-plan')!.addEventListener('click', async () => {
+      const url = planUrl().href;
+      try {
+        await navigator.clipboard.writeText(url);
+        shareStatus.textContent = '课表链接已复制。重新打开时，会保留天数、器械和时长选择。';
+      } catch {
+        shareStatus.textContent = `可以手动复制这份课表链接：${url}`;
+      }
+      shareStatus.hidden = false;
+    });
     document.querySelector('#print-plan')!.addEventListener('click', () => window.print());
     document.querySelector('#download-plan')!.addEventListener('click', () => {
       const lines = [
-        '# 练薄肌 · 我的第一周',
+        '# Awesome Boji · 我的第一周',
         String(description.textContent),
         '',
         '先预留约 5–8 分钟热身，选用轻阻力；组间休息约 60–120 秒，必要时更久。单侧动作每侧完成。',
@@ -293,6 +325,7 @@ const weekdays = ['周一', '周二', '周三', '周四', '周五', '周六', '�
         String(progress.textContent),
         '',
         '一般健康成年人入门参考，不是个体处方。出现关节锐痛或明显不适时停止练习。',
+        `这份课表：${planUrl().href}`,
         '动作要点：https://lianboji.com/movements/',
         '来源与边界：https://lianboji.com/about/',
       );
